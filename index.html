@@ -6,1145 +6,780 @@
 <title>Co Management — CardestCo & MembrCo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400&family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&family=Anuphan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@700,600&f[]=satoshi@900,700,500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ink: #0a0a0a;
-  --paper: #f4f1ea;
-  --paper-warm: #ede7d9;
-  --cream: #e8e2d0;
-  --rust: #c8441d;
-  --rust-deep: #8f2e14;
-  --gold: #b8954a;
-  --electric: #e8ff1a;
-  --plum: #1a0d26;
-  --violet: #7c3aed;
-  --cyan: #00d9ff;
-  --magenta: #ff2d95;
-  --line: rgba(10,10,10,0.12);
+  --ink: #1a0a14;
+  --ink-soft: #3d1a2e;
+  --paper: #fff0f5;
+  --paper-2: #ffe0ec;
+  --cream: #ffd0de;
+  --butter: #ffd93d;
+  --rust: #ff2e93;
+  --rust-deep: #d10068;
+  --clay: #ff7aa8;
+  --plum: #1a0a14;
+  --electric: #ff2e93;
+  --sky: #ffb8d4;
+  --coral: #ff5a8a;
+  --line: rgba(26,10,20,0.14);
+  --line-strong: rgba(26,10,20,0.22);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', 'Anuphan', system-ui, sans-serif !important; }
+
+/* Thai text uses Anuphan (Plus Jakarta has no Thai glyphs) */
+.thai-word, .hero-desc, .product-tag, .detail-desc,
+.feature-desc, .aud-desc, .nav-links a, .plan-desc,
+.aud-title, .pg-desc {
+  font-family: 'Anuphan', 'Plus Jakarta Sans', sans-serif !important;
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* CardestCo uses Clash Display (closer to logo) */
+.card-cardest .product-name,
+.detail-cardest .detail-title,
+.detail-cardest .feature-title,
+.detail-cardest .kpi-value {
+  font-family: 'Clash Display', 'Plus Jakarta Sans', sans-serif !important;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
 
+/* Display headings use Plus Jakarta Sans Bold */
+.hero-title, .section-title, .detail-title, .product-name,
+.cta-title, .pricing-title, .logo, .marquee-track,
+.hero-stat-val, .mini-value, .plan-price .amount,
+.feature-title, .kpi-value, .pg-name {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+.hero-title em, .section-title em, .detail-title em,
+.product-name em, .logo em, .hero-stat-val em, .mini-value em,
+.feature-title em, .pg-name em {
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* Kill italics site-wide — keep accent color via em but upright */
+em, i { font-style: normal !important; }
+
+/* Thai accent words — rust color but NOT italic */
+.thai-accent { color: var(--rust) !important; font-style: normal !important; }
+.thai-nowrap { white-space: nowrap; }
 html { scroll-behavior: smooth; }
-
 body {
-  font-family: 'IBM Plex Sans Thai', 'Fraunces', serif;
-  background: var(--paper);
+  font-family: 'Geist', 'IBM Plex Sans Thai', system-ui, sans-serif;
+  background:
+    radial-gradient(1100px 600px at 85% -10%, #ffd4e5 0%, transparent 60%),
+    radial-gradient(900px 500px at 0% 20%, #ffe8f0 0%, transparent 60%),
+    radial-gradient(800px 500px at 50% 110%, #ffc8dc 0%, transparent 55%),
+    var(--paper);
   color: var(--ink);
   overflow-x: hidden;
-  font-feature-settings: "ss01", "ss02";
   -webkit-font-smoothing: antialiased;
 }
+.thai { font-family: 'IBM Plex Sans Thai', 'Geist', sans-serif; }
 
-.mono { font-family: 'JetBrains Mono', monospace; }
-.serif { font-family: 'Fraunces', serif; font-feature-settings: "ss01"; }
-
-/* ====== GRAIN OVERLAY ====== */
 body::before {
   content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
-  opacity: 0.15;
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: multiply;
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity: 0.1; pointer-events: none; z-index: 9999; mix-blend-mode: multiply;
 }
 
-/* ====== NAV ====== */
+/* NAV */
 nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  padding: 18px 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(244, 241, 234, 0.85);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--line);
+  position: fixed; top: 16px; left: 16px; right: 16px; z-index: 100;
+  padding: 10px 10px 10px 22px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(255, 240, 245, 0.78);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--line); border-radius: 999px;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset, 0 10px 30px -12px rgba(24,22,18,0.12);
 }
-
 .logo {
-  font-family: 'Fraunces', serif;
-  font-size: 22px;
-  font-weight: 600;
-  font-style: italic;
-  letter-spacing: -0.02em;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  font-family: 'Instrument Serif', serif;
+  font-size: 24px; letter-spacing: -0.01em;
+  display: flex; align-items: center; gap: 10px;
 }
-
-.logo-mark {
-  width: 28px;
-  height: 28px;
-  background: var(--ink);
-  border-radius: 50%;
-  position: relative;
+.logo {
+  background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 45%, #ff2e93 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
 }
-.logo-mark::before {
-  content: '';
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 12px;
-  height: 12px;
-  background: var(--rust);
-  border-radius: 50%;
-}
-
-.nav-links {
-  display: flex;
-  gap: 28px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
+.logo em { font-style: normal; background: inherit; -webkit-background-clip: text; background-clip: text; color: transparent; }
+.logo-mark { position: relative; width: 26px; height: 26px; }
+.logo-mark .m1, .logo-mark .m2 { position: absolute; inset: 0; border-radius: 50%; }
+.logo-mark .m1 { background: #0a0a0a; transform: translateX(-4px); }
+.logo-mark .m2 { background: #ff2e93; transform: translateX(4px); mix-blend-mode: multiply; }
+.nav-links { display: flex; gap: 4px; font-size: 14px; font-weight: 500; }
 .nav-links a {
-  color: var(--ink);
-  text-decoration: none;
-  opacity: 0.7;
-  transition: opacity 0.2s;
+  color: var(--ink); text-decoration: none; opacity: 0.7;
+  padding: 8px 14px; border-radius: 999px; transition: all 0.2s;
 }
-.nav-links a:hover { opacity: 1; }
-
+.nav-links a:hover { opacity: 1; background: rgba(24,22,18,0.06); }
 .nav-cta {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 10px 18px;
-  background: var(--ink);
-  color: var(--paper);
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: transform 0.2s;
+  font-size: 14px; font-weight: 500; padding: 10px 18px;
+  background: var(--ink); color: var(--paper); border: none;
+  border-radius: 999px; cursor: pointer; transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 6px;
 }
-.nav-cta:hover { transform: scale(1.05); }
+.nav-cta:hover { background: var(--rust); transform: translateY(-1px); }
+.nav-cta .arrow { transition: transform 0.2s; }
+.nav-cta:hover .arrow { transform: translateX(2px); }
+@media (max-width: 900px) { .nav-links { display: none; } }
 
-@media (max-width: 768px) {
-  .nav-links { display: none; }
-}
-
-/* ====== HERO ====== */
+/* HERO */
 .hero {
-  min-height: 100vh;
-  padding: 140px 32px 80px;
-  position: relative;
-  overflow: hidden;
+  min-height: 100vh; padding: 120px 28px 60px;
+  position: relative; overflow: hidden;
+  background:
+    radial-gradient(1200px 600px at 90% 0%, rgba(214,73,31,0.12), transparent 60%),
+    radial-gradient(900px 500px at 0% 100%, rgba(243,217,122,0.35), transparent 60%),
+    var(--paper);
+}
+.hero-inner { max-width: 1400px; margin: 0 auto; position: relative; z-index: 2; }
+.hero-pill {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 6px 6px 6px 14px;
+  background: rgba(24,22,18,0.05); border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 500;
+  margin-bottom: 40px;
+}
+.hero-pill .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #22c55e; box-shadow: 0 0 0 0 rgba(34,197,94,0.6);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.6); }
+  70% { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
+  100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+}
+.hero-pill .chip { padding: 4px 10px; background: var(--ink); color: var(--paper); border-radius: 999px; font-size: 11px; }
+
+.hero-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(56px, 11vw, 168px);
+  font-weight: 400; line-height: 0.92; letter-spacing: -0.03em;
+  margin-bottom: 40px;
+}
+.hero-title .thai-word {
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+  font-weight: 500; letter-spacing: -0.02em; font-size: 0.88em;
+}
+.hero-title em { font-style: italic; color: var(--rust); }
+.hero-title .highlight { position: relative; display: inline-block; padding: 0 0.08em; }
+.hero-title .highlight::before {
+  content: ''; position: absolute; inset: 18% -2% 12% -2%;
+  background: var(--butter); z-index: -1;
+  transform: skew(-6deg) rotate(-0.8deg); border-radius: 4px;
 }
 
 .hero-grid {
-  max-width: 1400px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 40px;
+  display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px;
+  align-items: start; margin-top: 40px;
 }
-
-.hero-eyebrow {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 30px;
-  opacity: 0.7;
-}
-.hero-eyebrow::before {
-  content: '';
-  width: 40px;
-  height: 1px;
-  background: var(--ink);
-}
-
-.hero-title {
-  font-family: 'Fraunces', serif;
-  font-size: clamp(64px, 12vw, 180px);
-  font-weight: 300;
-  line-height: 0.92;
-  letter-spacing: -0.04em;
-  margin-bottom: 30px;
-}
-.hero-title em {
-  font-style: italic;
-  font-weight: 400;
-  color: var(--rust);
-}
-.hero-title .accent {
-  display: inline-block;
-  position: relative;
-}
-.hero-title .accent::after {
-  content: '';
-  position: absolute;
-  bottom: 8%;
-  left: 0;
-  right: 0;
-  height: 6px;
-  background: var(--electric);
-  z-index: -1;
-  transform: skew(-8deg);
-}
-
-.hero-sub {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  max-width: 1100px;
-  margin-top: 40px;
-  align-items: start;
-}
+@media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 32px; } }
 
 .hero-desc {
-  font-family: 'Fraunces', serif;
-  font-size: 22px;
-  font-weight: 300;
-  line-height: 1.4;
-  color: var(--ink);
-  max-width: 520px;
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+  font-size: 19px; line-height: 1.55; color: var(--ink-soft); max-width: 560px;
 }
-.hero-desc strong { font-weight: 600; font-style: italic; }
+.hero-desc strong {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  font-weight: 400; font-size: 1.1em; color: var(--ink);
+}
+.hero-actions { margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
 
-.hero-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  padding-top: 10px;
-}
-.hero-meta-row {
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 12px;
-  border-bottom: 1px dashed var(--line);
-}
-.hero-meta-label { opacity: 0.5; text-transform: uppercase; letter-spacing: 0.1em; }
-.hero-meta-value { font-weight: 500; }
-
-.hero-actions {
-  margin-top: 60px;
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.btn-primary, .btn-secondary {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  padding: 18px 32px;
-  border: none;
-  cursor: pointer;
-  border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  transition: all 0.3s;
+.btn {
+  font-size: 15px; font-weight: 500; padding: 14px 24px;
+  border: none; cursor: pointer; border-radius: 999px;
+  display: inline-flex; align-items: center; gap: 10px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); text-decoration: none;
 }
 .btn-primary {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--ink); color: var(--paper);
+  box-shadow: 0 4px 14px -4px rgba(24,22,18,0.4);
 }
 .btn-primary:hover {
-  background: var(--rust);
-  transform: translateY(-2px);
+  background: var(--rust); transform: translateY(-2px);
+  box-shadow: 0 10px 24px -6px rgba(214,73,31,0.5);
 }
 .btn-secondary {
-  background: transparent;
-  color: var(--ink);
-  border: 1px solid var(--ink);
+  background: rgba(24,22,18,0.05); color: var(--ink); border: 1px solid var(--line);
 }
-.btn-secondary:hover {
-  background: var(--ink);
-  color: var(--paper);
+.btn-secondary:hover { background: var(--ink); color: var(--paper); transform: translateY(-2px); }
+.btn .arrow { transition: transform 0.2s; }
+.btn:hover .arrow { transform: translateX(3px); }
+
+/* Hero mockup */
+.hero-mockup {
+  position: relative; aspect-ratio: 4/5; max-width: 480px;
+  justify-self: end; width: 100%;
+}
+@media (max-width: 900px) { .hero-mockup { display: none; } }
+
+.floater {
+  position: absolute; border-radius: 20px; padding: 18px;
+  background: #fff; border: 1px solid var(--line);
+  box-shadow: 0 24px 48px -18px rgba(24,22,18,0.22);
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+  50% { transform: translateY(-10px) rotate(var(--r, 0deg)); }
+}
+.floater.card-stack {
+  top: 0; left: 4%; width: 58%;
+  background: linear-gradient(140deg, #fff 0%, #fdf7ec 100%);
+  --r: -4deg; animation-delay: -1s;
+}
+.floater.dash-mini {
+  bottom: 8%; right: 0; width: 64%;
+  --r: 3deg; background: var(--plum); color: var(--paper); border-color: transparent;
+  animation-delay: -3s;
+}
+.floater.chip-tag {
+  top: 42%; left: 0;
+  background: var(--butter); padding: 10px 16px; border-radius: 999px;
+  font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 600;
+  --r: -6deg; animation-delay: -2s; border-color: var(--ink);
+  display: flex; align-items: center; gap: 8px;
+}
+.floater.chip-tag .avatar { width: 18px; height: 18px; border-radius: 50%; background: var(--rust); }
+
+.mini-cards { position: relative; height: 140px; margin-bottom: 12px; }
+.mini-cards > div {
+  position: absolute; width: 70px; height: 100px; border-radius: 10px;
+  box-shadow: 0 8px 18px -6px rgba(0,0,0,0.3);
+  display: grid; place-items: center;
+  font-family: 'Instrument Serif', serif; font-size: 28px; font-style: italic;
+  color: rgba(255,255,255,0.5);
+}
+.mini-cards > div:nth-child(1) { background: linear-gradient(135deg, #d6491f, #a53412); left: 8px; top: 20px; transform: rotate(-10deg); }
+.mini-cards > div:nth-child(2) { background: linear-gradient(135deg, #f3d97a, #c99a2f); left: 50%; top: 8px; transform: translateX(-50%) rotate(2deg); z-index: 2; }
+.mini-cards > div:nth-child(3) { background: linear-gradient(135deg, #1c0f2e, #3d1d52); right: 8px; top: 20px; transform: rotate(10deg); }
+.mini-cards > div::after { content: '◆'; }
+
+.mini-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+  color: var(--ink-soft); text-transform: uppercase; margin-bottom: 6px;
+}
+.mini-value {
+  font-family: 'Instrument Serif', serif; font-size: 34px;
+  letter-spacing: -0.02em; line-height: 1;
+}
+.mini-value em { font-style: italic; color: var(--rust); }
+.dash-mini .mini-label { color: rgba(245,239,227,0.6); }
+.mini-chart { display: flex; align-items: flex-end; gap: 4px; height: 70px; margin-top: 12px; }
+.mini-chart > span { flex: 1; background: var(--electric); border-radius: 3px 3px 0 0; opacity: 0.9; }
+.dash-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.mini-delta { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--electric); font-weight: 600; }
+
+.hero-stats {
+  margin-top: 80px; padding-top: 28px; border-top: 1px solid var(--line);
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+}
+@media (max-width: 700px) { .hero-stats { grid-template-columns: repeat(2, 1fr); } }
+.hero-stat { display: flex; flex-direction: column; gap: 4px; }
+.hero-stat-val {
+  font-family: 'Instrument Serif', serif; font-size: 38px;
+  letter-spacing: -0.02em; line-height: 1;
+}
+.hero-stat-val em { font-style: italic; color: var(--rust); }
+.hero-stat-label {
+  font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--ink-soft);
+  text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.7;
 }
 
-/* Decorative floating elements in hero */
-.hero-deco {
-  position: absolute;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  opacity: 0.4;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
+/* MARQUEE */
+.marquee { background: var(--ink); color: var(--paper); padding: 22px 0; overflow: hidden; position: relative; }
+.marquee-track {
+  display: flex; gap: 48px; animation: scroll 35s linear infinite;
+  white-space: nowrap;
+  font-family: 'Instrument Serif', serif; font-size: 46px; font-style: italic;
+  align-items: center;
 }
-.hero-deco.d1 { top: 140px; right: 60px; transform: rotate(90deg); transform-origin: right top; }
-.hero-deco.d2 { bottom: 80px; right: 40px; }
-
-.hero-asterisk {
-  position: absolute;
-  font-family: 'Fraunces', serif;
-  font-size: 200px;
-  color: var(--rust);
-  opacity: 0.15;
-  right: 5%;
-  top: 20%;
-  animation: spin 40s linear infinite;
+.marquee-track > span { display: flex; align-items: center; gap: 48px; }
+.marquee-track .star {
+  color: var(--rust); font-family: 'Geist', sans-serif;
+  font-style: normal; font-size: 24px; display: inline-block;
+  animation: spin 8s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+@keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-/* ====== MARQUEE ====== */
-.marquee {
-  background: var(--ink);
-  color: var(--paper);
-  padding: 24px 0;
-  overflow: hidden;
-  border-top: 1px solid var(--ink);
-  border-bottom: 1px solid var(--ink);
-  position: relative;
-}
-.marquee-track {
-  display: flex;
-  gap: 60px;
-  animation: scroll 40s linear infinite;
-  white-space: nowrap;
-  font-family: 'Fraunces', serif;
-  font-size: 42px;
-  font-weight: 400;
-  font-style: italic;
-}
-.marquee-track span {
-  display: flex;
-  align-items: center;
-  gap: 60px;
-}
-.marquee-track span::after {
-  content: '✦';
-  color: var(--rust);
-  font-style: normal;
-}
-@keyframes scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-/* ====== SECTION TITLE ====== */
-.section-header {
-  padding: 120px 32px 40px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
+/* SECTION HEADER */
+.section-header { padding: 120px 28px 40px; max-width: 1400px; margin: 0 auto; }
+#products .section-header { padding-top: 140px; }
 .section-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
-  opacity: 0.6;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  font-family: 'Geist Mono', monospace; font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.15em;
+  color: var(--rust); font-weight: 600; margin-bottom: 18px;
+  display: flex; align-items: center; gap: 10px;
 }
-.section-label::before {
-  content: '';
-  width: 8px;
-  height: 8px;
-  background: var(--rust);
-  border-radius: 50%;
-}
+.section-label::before { content: ''; width: 24px; height: 1px; background: currentColor; }
 .section-title {
-  font-family: 'Fraunces', serif;
-  font-size: clamp(42px, 6vw, 84px);
-  font-weight: 300;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  max-width: 900px;
+  font-family: 'Instrument Serif', serif; font-size: clamp(44px, 7vw, 96px);
+  font-weight: 400; line-height: 1; letter-spacing: -0.025em; max-width: 950px;
 }
 .section-title em { font-style: italic; color: var(--rust); }
+.section-title .thai-word {
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+  font-weight: 500; font-size: 0.88em; letter-spacing: -0.02em;
+}
 
-/* ====== PRODUCT CARDS ====== */
+/* PRODUCTS */
 .products {
-  padding: 40px 32px 120px;
-  max-width: 1400px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  padding: 40px 28px 120px; max-width: 1400px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
 }
-@media (max-width: 900px) {
-  .products { grid-template-columns: 1fr; }
-}
+@media (max-width: 900px) { .products { grid-template-columns: 1fr; } }
 
 .product-card {
-  padding: 48px;
-  border-radius: 32px;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-  min-height: 520px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  padding: 44px; border-radius: 32px; position: relative; overflow: hidden;
+  cursor: pointer; min-height: 540px;
+  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), box-shadow 0.4s;
+  display: flex; flex-direction: column; justify-content: space-between;
+  border: 1px solid var(--line);
 }
-.product-card:hover { transform: translateY(-8px); }
-
+.product-card:hover { transform: translateY(-6px); box-shadow: 0 30px 60px -20px rgba(24,22,18,0.25); }
 .card-cardest {
-  background: linear-gradient(135deg, #f5e6d3 0%, #e8cba8 100%);
-  color: var(--plum);
+  background:
+    radial-gradient(600px 400px at 100% 0%, rgba(200,152,149,0.28), transparent 70%),
+    radial-gradient(500px 350px at 0% 100%, rgba(255,255,255,0.18), transparent 70%),
+    linear-gradient(135deg, #3d2e8f 0%, #6b5bd1 50%, #b8a8ee 100%);
+  color: #ffffff; border-color: rgba(255,255,255,0.12);
 }
 .card-membr {
-  background: linear-gradient(135deg, #0f0820 0%, #1a0d26 100%);
-  color: var(--paper);
+  background:
+    radial-gradient(400px 300px at 0% 100%, rgba(214,73,31,0.10), transparent 70%),
+    linear-gradient(135deg, #0e1420 0%, #151b28 100%);
+  color: var(--paper); border-color: transparent;
 }
 
+.product-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 16px; }
 .product-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  opacity: 0.6;
+  font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.12em; opacity: 0.7; text-transform: uppercase;
 }
+.product-badge {
+  font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 600;
+  padding: 5px 10px; border-radius: 999px; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.card-cardest .product-badge { background: #ffffff; color: #6b5fcc; }
+.card-membr .product-badge { background: #d6491f; color: #ffffff; }
+
 .product-name {
-  font-family: 'Fraunces', serif;
-  font-size: clamp(48px, 6vw, 78px);
-  font-weight: 400;
-  line-height: 0.95;
-  letter-spacing: -0.03em;
-  margin: 20px 0 16px;
+  font-family: 'Instrument Serif', serif; font-size: clamp(40px, 5vw, 64px);
+  font-weight: 600; line-height: 1; letter-spacing: -0.03em; margin: 8px 0 16px;
+  max-width: 62%;
 }
 .product-name em { font-style: italic; }
-
-.card-cardest .product-name .co { color: var(--rust-deep); }
-.card-membr .product-name .co { color: var(--electric); }
+.card-cardest .product-name {
+  background: linear-gradient(90deg, #ffffff 0%, #e8d5d0 50%, #c89895 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.card-cardest .product-name em { color: #ffffff; }
+.card-membr .product-name em { color: #d6491f; }
 
 .product-tag {
-  font-family: 'Fraunces', serif;
-  font-size: 20px;
-  font-style: italic;
-  font-weight: 300;
-  margin-bottom: 24px;
-  opacity: 0.85;
-  max-width: 400px;
-  line-height: 1.3;
+  font-family: 'IBM Plex Sans Thai', sans-serif; font-size: 16px;
+  line-height: 1.5; margin-bottom: 20px; opacity: 0.85; max-width: 58%;
 }
 
-.product-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: auto;
-  padding-top: 40px;
-}
+.product-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 28px; }
 .tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 8px 14px;
-  border-radius: 999px;
-  border: 1px solid currentColor;
-  opacity: 0.8;
+  font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 500;
+  padding: 6px 12px; border-radius: 999px;
+  border: 1px solid currentColor; opacity: 0.75;
 }
+
+.product-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 14px; font-weight: 500;
+  padding: 10px 16px; border-radius: 999px;
+  background: rgba(0,0,0,0.1); align-self: flex-start;
+  transition: all 0.2s; margin-top: 8px;
+}
+.card-cardest .product-link { background: rgba(255,255,255,0.15); color: #ffffff; }
+.card-membr .product-link { background: rgba(214,73,31,0.2); color: #ff7a45; }
+.product-card:hover .product-link { transform: translateX(4px); }
 
 .card-visual {
-  position: absolute;
-  right: -40px;
-  top: 40px;
-  width: 280px;
-  height: 280px;
-  pointer-events: none;
-  opacity: 0.9;
+  position: absolute; right: -20px; top: 32px;
+  width: 280px; height: 280px; pointer-events: none; opacity: 0.95;
 }
-
-/* Card visual for CardestCo - stacked cards */
-.cardest-visual {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
+.cardest-visual { position: relative; width: 100%; height: 100%; }
 .trading-card {
-  position: absolute;
-  width: 140px;
-  height: 200px;
-  border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 0 0 2px rgba(0,0,0,0.05);
-  transition: transform 0.6s ease;
-}
-.trading-card:nth-child(1) {
-  background: linear-gradient(135deg, #c8441d, #8f2e14);
-  top: 40px; right: 80px;
-  transform: rotate(-12deg);
-}
-.trading-card:nth-child(2) {
-  background: linear-gradient(135deg, #b8954a, #8a6d2f);
-  top: 20px; right: 40px;
-  transform: rotate(6deg);
-}
-.trading-card:nth-child(3) {
-  background: linear-gradient(135deg, #1a0d26, #3d1d52);
-  top: 60px; right: 20px;
-  transform: rotate(15deg);
+  position: absolute; width: 140px; height: 200px; border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2), 0 0 0 2px rgba(0,0,0,0.05);
+  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
 }
 .trading-card::before {
-  content: '';
-  position: absolute;
-  inset: 10px;
-  border: 1px solid rgba(255,255,255,0.3);
-  border-radius: 6px;
+  content: ''; position: absolute; inset: 12px;
+  border: 1px solid rgba(255,255,255,0.35); border-radius: 7px;
 }
 .trading-card::after {
-  content: '◆';
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 40px;
-  color: rgba(255,255,255,0.4);
+  content: ''; position: absolute; top: 50%; left: 50%;
+  width: 50px; height: 50px;
+  background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+  border-radius: 50%; transform: translate(-50%, -50%);
 }
-.product-card:hover .trading-card:nth-child(1) { transform: rotate(-20deg) translateX(-10px); }
-.product-card:hover .trading-card:nth-child(3) { transform: rotate(22deg) translateX(10px); }
+.trading-card:nth-child(1) { background: linear-gradient(135deg, #ffffff, #d8c9ea); top: 40px; right: 100px; transform: rotate(-14deg); }
+.trading-card:nth-child(2) { background: linear-gradient(135deg, #c89895, #a06e6b); top: 20px; right: 50px; transform: rotate(4deg); box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.2); }
+.trading-card:nth-child(3) { background: linear-gradient(135deg, #ffffff, #b7a0d4); top: 60px; right: 0px; transform: rotate(17deg); }
+.product-card:hover .trading-card:nth-child(1) { transform: rotate(-22deg) translateX(-12px); }
+.product-card:hover .trading-card:nth-child(3) { transform: rotate(24deg) translateX(12px); }
 
-/* Card visual for MembrCo - equalizer */
 .membr-visual {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 8px;
-  padding: 40px;
+  position: relative; width: 100%; height: 100%;
+  display: flex; align-items: flex-end; justify-content: center; gap: 8px; padding: 50px;
 }
-.eq-bar {
-  width: 12px;
-  background: var(--electric);
-  border-radius: 6px;
-  animation: eq 1.2s ease-in-out infinite;
-}
-.eq-bar:nth-child(1) { height: 40%; animation-delay: 0s; }
-.eq-bar:nth-child(2) { height: 70%; animation-delay: 0.1s; }
-.eq-bar:nth-child(3) { height: 100%; animation-delay: 0.2s; background: var(--magenta); }
-.eq-bar:nth-child(4) { height: 60%; animation-delay: 0.3s; }
-.eq-bar:nth-child(5) { height: 85%; animation-delay: 0.4s; }
-.eq-bar:nth-child(6) { height: 45%; animation-delay: 0.5s; background: var(--cyan); }
-.eq-bar:nth-child(7) { height: 75%; animation-delay: 0.6s; }
-.eq-bar:nth-child(8) { height: 55%; animation-delay: 0.7s; }
+.eq-bar { width: 14px; border-radius: 7px; animation: eq 1.4s ease-in-out infinite; }
+.eq-bar:nth-child(1) { height: 40%; background: #d6491f; animation-delay: 0s; }
+.eq-bar:nth-child(2) { height: 70%; background: #ff7a45; animation-delay: 0.1s; }
+.eq-bar:nth-child(3) { height: 100%; background: #d6491f; animation-delay: 0.2s; }
+.eq-bar:nth-child(4) { height: 60%; background: #ff7a45; animation-delay: 0.3s; }
+.eq-bar:nth-child(5) { height: 85%; background: #d6491f; animation-delay: 0.4s; }
+.eq-bar:nth-child(6) { height: 45%; background: #a53412; animation-delay: 0.5s; }
+.eq-bar:nth-child(7) { height: 75%; background: #ff7a45; animation-delay: 0.6s; }
+.eq-bar:nth-child(8) { height: 55%; background: #d6491f; animation-delay: 0.7s; }
 @keyframes eq {
   0%, 100% { transform: scaleY(0.4); transform-origin: bottom; }
   50% { transform: scaleY(1); transform-origin: bottom; }
 }
 
-/* ====== DETAIL SECTIONS ====== */
-.detail-section {
-  padding: 120px 32px;
-  position: relative;
-}
+/* DETAIL */
+.detail-section { padding: 120px 28px; position: relative; }
 .detail-cardest {
-  background: var(--cream);
-  color: var(--plum);
+  background: linear-gradient(135deg, #3d2e8f 0%, #6b5bd1 50%, #b8a8ee 100%);
+  color: #ffffff;
 }
-.detail-membr {
-  background: var(--plum);
-  color: var(--paper);
-}
-
-.detail-inner {
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
+.detail-membr { background: #0e1420; color: var(--paper); }
+.detail-inner { max-width: 1400px; margin: 0 auto; }
 .detail-top {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: end;
-  margin-bottom: 80px;
+  display: grid; grid-template-columns: 1.2fr 1fr;
+  gap: 60px; align-items: end; margin-bottom: 64px;
 }
-@media (max-width: 900px) {
-  .detail-top { grid-template-columns: 1fr; }
-}
-
+@media (max-width: 900px) { .detail-top { grid-template-columns: 1fr; gap: 32px; } }
 .detail-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
-  opacity: 0.6;
-  margin-bottom: 24px;
+  font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.15em;
+  color: var(--rust); margin-bottom: 20px;
 }
-
+.detail-membr .detail-label { color: #ff7a45; }
 .detail-title {
-  font-family: 'Fraunces', serif;
-  font-size: clamp(56px, 9vw, 140px);
-  font-weight: 300;
-  line-height: 0.9;
-  letter-spacing: -0.04em;
+  font-family: 'Instrument Serif', serif; font-size: clamp(64px, 11vw, 160px);
+  font-weight: 400; line-height: 0.88; letter-spacing: -0.035em;
 }
 .detail-title em { font-style: italic; }
-.detail-cardest .detail-title em { color: var(--rust); }
-.detail-membr .detail-title em { color: var(--electric); }
-
+.detail-cardest .detail-title {
+  background: linear-gradient(90deg, #ffffff 0%, #e8d5d0 50%, #c89895 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.detail-cardest .detail-title em { background: inherit; -webkit-background-clip: text; background-clip: text; color: transparent; opacity: 1; }
+.detail-membr .detail-title em { color: #d6491f; }
 .detail-desc {
-  font-family: 'Fraunces', serif;
-  font-size: 20px;
-  font-weight: 300;
-  line-height: 1.5;
-  max-width: 500px;
-  opacity: 0.85;
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+  font-size: 18px; line-height: 1.6; max-width: 500px; opacity: 0.82;
 }
 
-/* Features grid */
 .features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1px;
-  background: currentColor;
-  border: 1px solid currentColor;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 14px;
 }
 .feature {
-  padding: 32px;
-  background: var(--cream);
-  position: relative;
-  transition: background 0.3s;
-  min-height: 200px;
-  display: flex;
-  flex-direction: column;
+  padding: 28px; border-radius: 20px; position: relative;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  min-height: 200px; display: flex; flex-direction: column;
+  background: var(--paper); border: 1px solid var(--line);
 }
-.detail-membr .feature { background: var(--plum); }
-
-.detail-cardest .feature:hover { background: #ddd2b8; }
-.detail-membr .feature:hover { background: #261436; }
-
+.detail-membr .feature { background: rgba(245,239,227,0.04); border-color: rgba(245,239,227,0.1); }
+.detail-cardest .feature { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.12); backdrop-filter: blur(10px); }
+.detail-cardest .feature:hover { background: rgba(255,255,255,0.12); box-shadow: 0 20px 40px -15px rgba(0,0,0,0.3); }
+.detail-cardest .feature-icon { background: #ffffff; color: #6b5fcc; }
+.feature:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -15px rgba(24,22,18,0.18); }
+.detail-membr .feature:hover { background: rgba(245,239,227,0.07); box-shadow: 0 20px 40px -15px rgba(0,0,0,0.4); }
 .feature-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  opacity: 0.5;
-  margin-bottom: 14px;
+  font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; opacity: 0.5; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
 }
+.feature-num::after { content: ''; flex: 1; height: 1px; background: currentColor; opacity: 0.3; }
+.feature-icon {
+  width: 40px; height: 40px; border-radius: 10px; background: var(--butter);
+  display: grid; place-items: center; margin-bottom: 14px;
+  font-family: 'Instrument Serif', serif; font-style: italic; font-size: 22px; color: var(--plum);
+}
+.detail-membr .feature-icon { background: #d6491f; color: #ffffff; }
 .feature-title {
-  font-family: 'Fraunces', serif;
-  font-size: 28px;
-  font-weight: 400;
-  font-style: italic;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  margin-bottom: 14px;
+  font-family: 'Instrument Serif', serif; font-size: 26px;
+  font-weight: 400; line-height: 1.1; letter-spacing: -0.015em; margin-bottom: 10px;
 }
-.detail-cardest .feature-title { color: var(--rust-deep); }
-.detail-membr .feature-title { color: var(--electric); }
-
+.feature-title em { font-style: italic; color: var(--rust); }
+.detail-membr .feature-title em { color: var(--electric); }
 .feature-desc {
-  font-size: 14px;
-  line-height: 1.5;
-  opacity: 0.8;
   font-family: 'IBM Plex Sans Thai', sans-serif;
-  font-weight: 300;
+  font-size: 14px; line-height: 1.6; opacity: 0.75;
 }
 
-/* Dashboard preview */
 .dashboard-preview {
-  margin-top: 80px;
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid currentColor;
-}
-.detail-cardest .dashboard-preview {
-  background: var(--paper);
+  margin-top: 64px; border-radius: 24px; overflow: hidden;
+  border: 1px solid var(--line); background: var(--paper);
+  box-shadow: 0 40px 80px -30px rgba(24,22,18,0.2);
 }
 .detail-membr .dashboard-preview {
-  background: #0a0515;
-  border-color: rgba(232, 255, 26, 0.3);
+  background: #0a0515; border-color: rgba(232, 255, 26, 0.2);
+  box-shadow: 0 40px 80px -30px rgba(0,0,0,0.5);
 }
-
 .dash-header {
-  padding: 16px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid currentColor;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
+  padding: 14px 20px; display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid var(--line);
+  font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 500;
 }
+.detail-membr .dash-header { border-color: rgba(245,239,227,0.1); }
 .dash-dots { display: flex; gap: 6px; }
-.dash-dots span {
-  width: 10px; height: 10px; border-radius: 50%;
-  background: currentColor;
-  opacity: 0.3;
-}
+.dash-dots span { width: 10px; height: 10px; border-radius: 50%; }
+.dash-dots span:nth-child(1) { background: #ff5f57; }
+.dash-dots span:nth-child(2) { background: #febc2e; }
+.dash-dots span:nth-child(3) { background: #28c840; }
 
-.dash-body {
-  padding: 32px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-}
-@media (max-width: 700px) {
-  .dash-body { grid-template-columns: repeat(2, 1fr); }
-}
-
+.dash-body { padding: 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+@media (max-width: 700px) { .dash-body { grid-template-columns: repeat(2, 1fr); } }
 .kpi {
-  padding: 20px;
-  border-radius: 12px;
-  border: 1px solid currentColor;
+  padding: 18px; border-radius: 14px;
+  background: rgba(24,22,18,0.03); border: 1px solid var(--line);
 }
-.detail-cardest .kpi { border-color: rgba(26, 13, 38, 0.2); }
-.detail-membr .kpi { border-color: rgba(244, 241, 234, 0.15); }
-
+.detail-membr .kpi { background: rgba(245,239,227,0.03); border-color: rgba(245,239,227,0.08); }
 .kpi-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  opacity: 0.6;
-  margin-bottom: 10px;
+  font-family: 'Geist Mono', monospace; font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.55;
+  margin-bottom: 8px; font-weight: 500;
 }
 .kpi-value {
-  font-family: 'Fraunces', serif;
-  font-size: 32px;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1;
+  font-family: 'Instrument Serif', serif; font-size: 34px;
+  letter-spacing: -0.02em; line-height: 1;
 }
-.kpi-change {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  margin-top: 8px;
-}
-.kpi-up { color: #22c55e; }
+.kpi-value em { font-style: italic; color: var(--rust); }
+.detail-membr .kpi-value em { color: var(--electric); }
+.kpi-change { font-family: 'Geist Mono', monospace; font-size: 11px; margin-top: 8px; font-weight: 600; }
+.kpi-up { color: #22a348; }
 .detail-membr .kpi-up { color: var(--electric); }
 
 .dash-chart {
-  grid-column: 1 / -1;
-  height: 180px;
-  border-radius: 12px;
-  border: 1px solid currentColor;
-  padding: 20px;
-  display: flex;
-  align-items: flex-end;
-  gap: 6px;
-  opacity: 0.9;
+  grid-column: 1 / -1; height: 180px; border-radius: 14px;
+  background: rgba(24,22,18,0.03); border: 1px solid var(--line);
+  padding: 20px; display: flex; align-items: flex-end; gap: 6px;
 }
-.detail-cardest .dash-chart { border-color: rgba(26, 13, 38, 0.2); }
-.detail-membr .dash-chart { border-color: rgba(244, 241, 234, 0.15); }
-
+.detail-membr .dash-chart { background: rgba(245,239,227,0.02); border-color: rgba(245,239,227,0.08); }
 .chart-bar {
-  flex: 1;
-  border-radius: 4px 4px 0 0;
-  opacity: 0.85;
+  flex: 1; border-radius: 4px 4px 0 0;
+  transition: transform 0.3s, opacity 0.3s; opacity: 0.9;
 }
-.detail-cardest .chart-bar { background: var(--rust); }
-.detail-membr .chart-bar { background: var(--electric); }
+.detail-cardest .chart-bar { background: linear-gradient(to top, #ffffff, #c89895); }
+.detail-cardest .detail-label { color: rgba(255,255,255,0.8); }
+.detail-cardest .feature-num { color: rgba(255,255,255,0.6); }
+.detail-cardest .feature-title em { color: #ffffff; opacity: 0.85; }
+.detail-cardest .kpi-value em { color: #ffffff; opacity: 0.85; }
+.detail-membr .chart-bar { background: linear-gradient(to top, var(--electric), #b8cc14); }
+.chart-bar:hover { opacity: 1; transform: scaleY(1.04); transform-origin: bottom; }
 
-/* ====== PRICING ====== */
-.pricing-section {
-  padding: 120px 32px;
-  background: var(--paper-warm);
-  position: relative;
+/* AUDIENCE */
+.audience-section { padding: 120px 28px; background: var(--paper); }
+.audience-inner { max-width: 1400px; margin: 0 auto; }
+.audience-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px; margin-top: 60px;
 }
-.pricing-inner {
-  max-width: 1400px;
-  margin: 0 auto;
+.audience-card {
+  padding: 28px 24px 24px; background: var(--paper-2); border-radius: 20px;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  position: relative; overflow: hidden; border: 1px solid var(--line); cursor: pointer;
 }
+.audience-card::before {
+  content: ''; position: absolute; inset: 0; background: var(--ink);
+  transform: translateY(101%); transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); z-index: 0;
+}
+.audience-card > * { position: relative; z-index: 1; }
+.audience-card:hover { color: var(--paper); transform: translateY(-4px); border-color: var(--ink); }
+.audience-card:hover::before { transform: translateY(0); }
+.audience-icon {
+  width: 44px; height: 44px; border-radius: 12px; background: var(--butter);
+  display: grid; place-items: center;
+  font-family: 'Instrument Serif', serif; font-size: 24px; font-style: italic;
+  color: var(--plum); margin-bottom: 20px; transition: all 0.3s;
+}
+.audience-card:hover .audience-icon { background: var(--electric); }
+.audience-title {
+  font-family: 'Instrument Serif', serif; font-size: 26px;
+  font-weight: 400; margin-bottom: 6px; letter-spacing: -0.015em; line-height: 1.1;
+}
+.audience-desc { font-family: 'IBM Plex Sans Thai', sans-serif; font-size: 14px; opacity: 0.75; line-height: 1.5; }
+.audience-product {
+  font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; margin-top: 20px; padding-top: 14px;
+  border-top: 1px dashed currentColor; opacity: 0.6;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.audience-product .arrow { transition: transform 0.3s; }
+.audience-card:hover .audience-product .arrow { transform: translateX(4px); }
+
+/* PRICING */
+.pricing-section { padding: 120px 28px; background: var(--paper-2); position: relative; }
+.pricing-inner { max-width: 1400px; margin: 0 auto; }
 .pricing-header {
-  margin-bottom: 70px;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 40px;
-  align-items: end;
+  margin-bottom: 60px; display: grid; grid-template-columns: 1fr auto;
+  gap: 40px; align-items: end;
 }
-@media (max-width: 800px) {
-  .pricing-header { grid-template-columns: 1fr; }
-}
+@media (max-width: 800px) { .pricing-header { grid-template-columns: 1fr; } }
 .pricing-note {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  opacity: 0.6;
-  text-align: right;
-  line-height: 1.8;
+  font-family: 'Geist Mono', monospace; font-size: 12px;
+  text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.7;
+  text-align: right; line-height: 1.8; font-weight: 500;
 }
-
-.pricing-groups {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-}
-@media (max-width: 900px) {
-  .pricing-groups { grid-template-columns: 1fr; }
-}
-
+.pricing-groups { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 900px) { .pricing-groups { grid-template-columns: 1fr; } }
 .pricing-group {
-  background: var(--paper);
-  border-radius: 28px;
-  padding: 40px 36px 36px;
-  border: 1px solid var(--line);
-  display: flex;
-  flex-direction: column;
+  background: var(--paper); border-radius: 28px; padding: 36px 32px 32px;
+  border: 1px solid var(--line); display: flex; flex-direction: column;
 }
-.pricing-group.dark {
-  background: var(--plum);
-  color: var(--paper);
-  border-color: transparent;
-}
-
+.pricing-group.dark { background: var(--plum); color: var(--paper); border-color: transparent; }
 .pricing-group-head {
-  padding-bottom: 28px;
-  margin-bottom: 28px;
+  padding-bottom: 24px; margin-bottom: 24px;
   border-bottom: 1px dashed currentColor;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
 }
-.pricing-group-head .pg-name {
-  font-family: 'Fraunces', serif;
-  font-size: 36px;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1;
+.pricing-group .pricing-group-head { border-color: var(--line-strong); }
+.pricing-group.dark .pricing-group-head { border-color: rgba(245,239,227,0.18); }
+.pg-name {
+  font-family: 'Instrument Serif', serif; font-size: 38px;
+  font-weight: 400; letter-spacing: -0.025em; line-height: 1;
 }
-.pricing-group-head .pg-name em { font-style: italic; }
-.pricing-group .pg-name em { color: var(--rust-deep); }
+.pg-name em { font-style: italic; }
+.pricing-group .pg-name em { color: var(--rust); }
 .pricing-group.dark .pg-name em { color: var(--electric); }
-.pricing-group-head .pg-link {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  text-decoration: none;
-  color: inherit;
-  opacity: 0.7;
-  padding: 8px 14px;
-  border: 1px solid currentColor;
-  border-radius: 999px;
-  transition: all 0.2s;
-  white-space: nowrap;
+.pg-link {
+  font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.08em; text-decoration: none; color: inherit; opacity: 0.7;
+  padding: 8px 14px; border: 1px solid currentColor; border-radius: 999px;
+  transition: all 0.2s; white-space: nowrap;
 }
-.pricing-group-head .pg-link:hover { opacity: 1; transform: translateY(-1px); }
-
-.plans {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  flex: 1;
-}
-@media (max-width: 500px) {
-  .plans { grid-template-columns: 1fr; }
-}
-
+.pg-link:hover { opacity: 1; transform: translateY(-1px); }
+.plans { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex: 1; }
+@media (max-width: 500px) { .plans { grid-template-columns: 1fr; } }
 .plan {
-  border: 1px solid currentColor;
-  border-radius: 18px;
-  padding: 24px 22px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.3s;
+  border: 1px solid currentColor; border-radius: 20px; padding: 22px 20px;
+  position: relative; display: flex; flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
 }
-.pricing-group .plan { border-color: rgba(10,10,10,0.15); }
-.pricing-group.dark .plan { border-color: rgba(244,241,234,0.18); }
-
-.plan:hover { transform: translateY(-4px); }
-
-.plan.featured {
-  background: var(--ink);
-  color: var(--paper);
-  border-color: var(--ink);
-}
-.pricing-group.dark .plan.featured {
-  background: var(--electric);
-  color: var(--plum);
-  border-color: var(--electric);
-}
-
+.pricing-group .plan { border-color: var(--line-strong); }
+.pricing-group.dark .plan { border-color: rgba(245,239,227,0.18); }
+.plan:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -15px rgba(24,22,18,0.15); }
+.plan.featured { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.pricing-group.dark .plan.featured { background: var(--electric); color: var(--plum); border-color: var(--electric); }
 .plan-badge {
-  position: absolute;
-  top: -10px;
-  right: 18px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: var(--rust);
-  color: var(--paper);
+  position: absolute; top: -10px; left: 18px;
+  font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 600;
+  letter-spacing: 0.08em; padding: 5px 10px; border-radius: 999px;
+  background: var(--rust); color: var(--paper); text-transform: uppercase;
 }
-.pricing-group.dark .plan.featured .plan-badge {
-  background: var(--plum);
-  color: var(--electric);
-}
-
+.pricing-group.dark .plan.featured .plan-badge { background: var(--plum); color: var(--electric); }
 .plan-name {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  opacity: 0.7;
-  margin-bottom: 16px;
+  font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.12em; opacity: 0.7; margin-bottom: 14px;
 }
 .plan-price {
-  font-family: 'Fraunces', serif;
-  line-height: 0.95;
-  letter-spacing: -0.02em;
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  margin-bottom: 4px;
+  font-family: 'Instrument Serif', serif; line-height: 0.95; letter-spacing: -0.02em;
+  display: flex; align-items: baseline; gap: 4px; margin-bottom: 2px;
 }
-.plan-price .currency {
-  font-size: 18px;
-  font-weight: 400;
-  opacity: 0.7;
-}
-.plan-price .amount {
-  font-size: 52px;
-  font-weight: 400;
-}
-.plan-period {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  opacity: 0.6;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
+.plan-price .currency { font-size: 20px; opacity: 0.6; }
+.plan-price .amount { font-size: 56px; font-weight: 400; }
+.plan-period { font-family: 'Geist Mono', monospace; font-size: 12px; opacity: 0.55; margin-bottom: 18px; letter-spacing: 0.04em; }
 .plan-features {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 20px;
+  list-style: none; padding: 0; margin: 0 0 18px;
   font-family: 'IBM Plex Sans Thai', sans-serif;
-  font-size: 13px;
-  line-height: 1.5;
-  flex: 1;
+  font-size: 13px; line-height: 1.5; flex: 1;
 }
 .plan-features li {
-  padding: 8px 0;
-  border-top: 1px dashed currentColor;
-  opacity: 0.9;
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
+  padding: 8px 0; border-top: 1px dashed currentColor;
+  opacity: 0.88; display: flex; gap: 10px; align-items: flex-start;
 }
-.pricing-group .plan-features li { border-color: rgba(10,10,10,0.12); }
-.pricing-group.dark .plan-features li { border-color: rgba(244,241,234,0.15); }
-.pricing-group.dark .plan.featured .plan-features li { border-color: rgba(26,13,38,0.2); }
-.plan-features li::before {
-  content: '→';
-  font-family: 'JetBrains Mono', monospace;
-  opacity: 0.7;
-  font-size: 12px;
-  line-height: 1.5;
-  flex-shrink: 0;
-}
+.pricing-group .plan-features li { border-color: var(--line); }
+.pricing-group.dark .plan-features li { border-color: rgba(245,239,227,0.12); }
+.pricing-group.dark .plan.featured .plan-features li { border-color: rgba(28,15,46,0.2); }
+.plan-features li::before { content: '↳'; font-family: 'Geist Mono', monospace; opacity: 0.6; font-size: 12px; flex-shrink: 0; }
 
 .plan-cta {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  padding: 12px 18px;
-  border-radius: 999px;
-  text-decoration: none;
-  text-align: center;
-  background: transparent;
-  color: inherit;
-  border: 1px solid currentColor;
-  transition: all 0.2s;
-  cursor: pointer;
+  font-size: 13px; font-weight: 500; padding: 12px 18px; border-radius: 999px;
+  text-decoration: none; text-align: center; background: transparent;
+  color: inherit; border: 1px solid currentColor; transition: all 0.2s;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
 }
-.plan-cta:hover {
-  background: currentColor;
-}
+.plan-cta:hover { background: currentColor; }
 .plan-cta:hover span { color: var(--paper); }
 .pricing-group.dark .plan-cta:hover span { color: var(--plum); }
-.plan.featured .plan-cta { border-color: currentColor; }
 .plan.featured .plan-cta:hover { background: var(--paper); color: var(--ink); }
+.plan.featured .plan-cta:hover span { color: var(--ink); }
 .pricing-group.dark .plan.featured .plan-cta:hover { background: var(--plum); color: var(--electric); }
+.pricing-group.dark .plan.featured .plan-cta:hover span { color: var(--electric); }
 
-@media (max-width: 768px) {
-  .pricing-section { padding: 80px 20px; }
-  .pricing-group { padding: 28px 22px; }
-  .plan-price .amount { font-size: 44px; }
-}
-
-/* ====== WHO IS IT FOR ====== */
-.audience-section {
-  padding: 120px 32px;
-  background: var(--paper);
-}
-.audience-inner {
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.audience-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-  margin-top: 60px;
-}
-
-.audience-card {
-  padding: 32px 24px;
-  background: var(--paper-warm);
-  border-radius: 20px;
-  transition: all 0.3s;
-  position: relative;
-  overflow: hidden;
-}
-.audience-card:hover {
-  background: var(--ink);
-  color: var(--paper);
-  transform: translateY(-4px);
-}
-
-.audience-icon {
-  font-family: 'Fraunces', serif;
-  font-size: 48px;
-  font-style: italic;
-  margin-bottom: 20px;
-  line-height: 1;
-}
-
-.audience-title {
-  font-family: 'Fraunces', serif;
-  font-size: 24px;
-  font-weight: 500;
-  margin-bottom: 8px;
-  letter-spacing: -0.01em;
-}
-.audience-desc {
-  font-size: 13px;
-  opacity: 0.7;
-  line-height: 1.5;
-}
-.audience-product {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px dashed currentColor;
-  opacity: 0.6;
-}
-
-/* ====== CTA ====== */
-.cta-section {
-  padding: 120px 32px;
-  background: var(--ink);
-  color: var(--paper);
-  position: relative;
-  overflow: hidden;
-}
-.cta-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
-}
-
+/* CTA */
+.cta-section { padding: 120px 28px; background: var(--ink); color: var(--paper); position: relative; overflow: hidden; }
+.cta-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
 .cta-title {
-  font-family: 'Fraunces', serif;
-  font-size: clamp(48px, 8vw, 120px);
-  font-weight: 300;
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-  margin-bottom: 40px;
+  font-family: 'Instrument Serif', serif; font-size: clamp(56px, 9vw, 140px);
+  font-weight: 400; line-height: 0.92; letter-spacing: -0.035em; margin-bottom: 28px;
 }
-.cta-title em { font-style: italic; color: var(--electric); }
-
-.cta-buttons {
-  display: flex;
-  gap: 16px;
-  margin-top: 50px;
-  flex-wrap: wrap;
+.cta-title em { font-style: italic; color: var(--butter); }
+.cta-sub {
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+  font-size: 20px; max-width: 600px; opacity: 0.75; line-height: 1.5;
 }
+.cta-buttons { display: flex; gap: 12px; margin-top: 44px; flex-wrap: wrap; }
 .btn-rust, .btn-electric {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  padding: 20px 36px;
-  border: none;
-  cursor: pointer;
-  border-radius: 999px;
-  transition: all 0.3s;
+  font-size: 15px; font-weight: 500; padding: 16px 28px; border: none;
+  cursor: pointer; border-radius: 999px; transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
 }
-.btn-rust {
-  background: var(--rust);
-  color: var(--paper);
-}
-.btn-rust:hover { background: #e55526; transform: translateY(-2px); }
-.btn-electric {
-  background: var(--electric);
-  color: var(--ink);
-}
-.btn-electric:hover { background: #f1ff42; transform: translateY(-2px); }
+.btn-rust { background: var(--rust); color: var(--paper); box-shadow: 0 10px 30px -8px rgba(214,73,31,0.5); }
+.btn-rust:hover { background: #e55526; transform: translateY(-2px); box-shadow: 0 16px 40px -8px rgba(214,73,31,0.7); }
+.btn-electric { background: var(--electric); color: var(--plum); box-shadow: 0 10px 30px -8px rgba(232,255,26,0.35); }
+.btn-electric:hover { background: #f1ff42; transform: translateY(-2px); box-shadow: 0 16px 40px -8px rgba(232,255,26,0.5); }
 
 .cta-bg {
-  position: absolute;
-  right: -200px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: 'Fraunces', serif;
-  font-size: 500px;
-  font-weight: 300;
-  font-style: italic;
-  color: rgba(244, 241, 234, 0.04);
-  pointer-events: none;
-  line-height: 1;
+  position: absolute; right: -160px; bottom: -140px;
+  font-family: 'Instrument Serif', serif; font-size: 560px; font-style: italic;
+  color: rgba(243, 217, 122, 0.06); pointer-events: none;
+  line-height: 0.8; user-select: none;
 }
 
-/* ====== FOOTER ====== */
-footer {
-  padding: 60px 32px 40px;
-  background: var(--ink);
-  color: var(--paper);
-  border-top: 1px solid rgba(244, 241, 234, 0.1);
-}
+footer { padding: 60px 28px 40px; background: var(--ink); color: var(--paper); border-top: 1px solid rgba(245, 239, 227, 0.08); }
 .footer-inner {
-  max-width: 1400px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  opacity: 0.6;
+  max-width: 1400px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 20px;
+  font-family: 'Geist Mono', monospace; font-size: 12px; opacity: 0.55; letter-spacing: 0.05em;
 }
 
-/* ====== ANIMATIONS ====== */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.fade-up {
-  animation: fadeUp 1s cubic-bezier(0.19, 1, 0.22, 1) both;
-}
-.delay-1 { animation-delay: 0.1s; }
-.delay-2 { animation-delay: 0.2s; }
-.delay-3 { animation-delay: 0.3s; }
-.delay-4 { animation-delay: 0.4s; }
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.9s cubic-bezier(0.19,1,0.22,1), transform 0.9s cubic-bezier(0.19,1,0.22,1); }
+.reveal.in { opacity: 1; transform: translateY(0); }
 
-/* Responsive */
 @media (max-width: 768px) {
-  .hero { padding: 120px 20px 60px; }
-  .hero-sub { grid-template-columns: 1fr; gap: 30px; }
-  .hero-asterisk { display: none; }
+  nav { padding: 8px 8px 8px 16px; }
+  .hero { padding: 100px 20px 60px; }
   .product-card { padding: 32px; min-height: auto; }
-  .card-visual { width: 180px; height: 180px; right: -20px; top: 20px; opacity: 0.6; }
-  .section-header, .audience-section, .detail-section, .cta-section { padding-left: 20px; padding-right: 20px; }
-  .dash-body { padding: 20px; }
-  .feature { padding: 24px; min-height: auto; }
+  .card-visual { width: 200px; height: 200px; right: -30px; top: 20px; opacity: 0.7; }
+  .section-header, .audience-section, .detail-section, .cta-section, .pricing-section { padding-left: 20px; padding-right: 20px; }
+  .dash-body { padding: 18px; }
+  .feature { padding: 22px; min-height: auto; }
+  .pricing-group { padding: 26px 22px; }
+  .plan-price .amount { font-size: 46px; }
 }
 </style>
 </head>
@@ -1152,408 +787,278 @@ footer {
 
 <nav>
   <div class="logo">
-    <div class="logo-mark"></div>
+    <div class="logo-mark"><div class="m1"></div><div class="m2"></div></div>
     <span>Co<em>Management</em></span>
   </div>
   <div class="nav-links">
     <a href="#products">Products</a>
-    <a href="https://cardestco.com/" target="_blank" rel="noopener">CardestCo</a>
-    <a href="https://membrco.com/" target="_blank" rel="noopener">MembrCo</a>
+    <a href="#cardest">CardestCo</a>
+    <a href="#membr">MembrCo</a>
     <a href="#audience">For Whom</a>
     <a href="#pricing">Pricing</a>
   </div>
-  <a href="#get-started" style="text-decoration:none;"><button class="nav-cta">Get Started →</button></a>
+  <a href="#get-started" style="text-decoration:none;"><button class="nav-cta">Get Started <span class="arrow">→</span></button></a>
 </nav>
 
-<!-- ========== HERO ========== -->
-<section class="hero">
-  <div class="hero-asterisk">✱</div>
-  <div class="hero-deco d1">—— Issue 01 / Vol. 2026</div>
-  <div class="hero-deco d2">Scroll ↓</div>
+<div id="products">
+<div class="section-header">
+  <div class="section-label reveal">The Collection · 02 Products</div>
+  <h2 class="section-title reveal"><span class="thai-word">เลือกแพลตฟอร์มที่</span><span class="thai-word" style="color: var(--rust);">พอดี</span><br><span class="thai-word">กับระบบหลังบ้านของคุณ</span></h2>
+</div>
 
-  <div class="hero-grid">
-    <div class="hero-eyebrow fade-up">Two Products · One Mission</div>
-    <h1 class="hero-title fade-up delay-1">
-      บริหาร<em>หลังบ้าน</em><br>
-      <span class="accent">ครบวงจร</span> —<br>
-      สำหรับธุรกิจ<em>เฉพาะทาง.</em>
+<div class="products">
+  <a href="https://membrco.com/" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;" class="reveal">
+  <div class="product-card card-membr">
+    <div class="card-visual membr-visual">
+      <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
+      <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
+    </div>
+    <div>
+      <div class="product-head">
+        <div class="product-num">— 01 / BANDS & EVENTS</div>
+        <div class="product-badge">Live</div>
+      </div>
+      <h3 class="product-name">Membr<em>Co</em></h3>
+      <p class="product-tag">ระบบจัดการธุรกิจวงดนตรี, Event, Organizer, Venues</p>
+      <div class="product-link">membrco.com <span class="arrow">↗</span></div>
+    </div>
+    <div class="product-tags">
+      <span class="tag">Band</span><span class="tag">Organize</span>
+      <span class="tag">Venue</span><span class="tag">Events</span>
+    </div>
+  </div>
+  </a>
+
+  <a href="https://cardestco.com/" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;" class="reveal">
+  <div class="product-card card-cardest">
+    <div class="card-visual cardest-visual">
+      <div class="trading-card"></div><div class="trading-card"></div><div class="trading-card"></div>
+    </div>
+    <div>
+      <div class="product-head">
+        <div class="product-num">— 02 / TRADING CARDS</div>
+        <div class="product-badge">Live</div>
+      </div>
+      <h3 class="product-name">Cardest<em>Co</em></h3>
+      <p class="product-tag">ระบบจัดการร้านการ์ดและนักสะสมครบวงจร — stock, break, consign, PSA/BGS/CGC</p>
+      <div class="product-link">cardestco.com <span class="arrow">↗</span></div>
+    </div>
+    <div class="product-tags">
+      <span class="tag">Trading Cards</span><span class="tag">Art Toy</span>
+      <span class="tag">Model Kit</span><span class="tag">Collectors</span>
+    </div>
+  </div>
+  </a>
+</div>
+</div>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-pill reveal">
+      <span class="dot"></span>
+      <span>Live on Cloud</span>
+      <span class="chip">2 Products</span>
+    </div>
+
+    <h1 class="hero-title reveal">
+      <span class="thai-word">บริหาร</span><span class="thai-word thai-accent">หลังบ้าน</span><br>
+      <span class="highlight"><span class="thai-word">ครบวงจร</span></span> —<br>
+      <span class="thai-nowrap"><span class="thai-word">สำหรับธุรกิจ</span><span class="thai-word thai-accent">เฉพาะทาง</span></span>
     </h1>
 
-    <div class="hero-sub fade-up delay-2">
-      <p class="hero-desc">
-        <strong>Co Management</strong> คือตระกูลเครื่องมือที่เก็บ จัดการ และวิเคราะห์ข้อมูลหลังบ้าน สำหรับ 2 โลกที่แตกต่าง — ร้านการ์ด/นักสะสม และวงดนตรี/ทีม Organize
-      </p>
-      <div class="hero-meta">
-        <div class="hero-meta-row">
-          <span class="hero-meta-label">Cloud</span>
-          <span class="hero-meta-value">Supabase Secure</span>
+    <div class="hero-grid">
+      <div class="reveal">
+        <p class="hero-desc">
+          <strong>Co Management</strong> ตระกูลเครื่องมือเก็บ จัดการ และวิเคราะห์ข้อมูลหลังบ้าน สำหรับ 2 โลกที่ต่างกันโดยสิ้นเชิง — <em>ร้านการ์ดและนักสะสม</em> กับ <em>วงดนตรี Event Organizer</em>
+        </p>
+        <div class="hero-actions">
+          <a href="#get-started" class="btn btn-primary">เริ่ม Trial ฟรี 7 วัน <span class="arrow">→</span></a>
+          <a href="#products" class="btn btn-secondary">ดู Products ทั้งหมด</a>
         </div>
-        <div class="hero-meta-row">
-          <span class="hero-meta-label">Platform</span>
-          <span class="hero-meta-value">Browser-based</span>
+      </div>
+
+      <div class="hero-mockup reveal">
+        <div class="floater card-stack">
+          <div class="mini-cards"><div></div><div></div><div></div></div>
+          <div class="mini-label">Stock Value</div>
+          <div class="dash-row">
+            <div class="mini-value"><em>฿</em>428,120</div>
+            <span class="mini-delta" style="color: #22a348;">↑ 24.3%</span>
+          </div>
         </div>
-        <div class="hero-meta-row">
-          <span class="hero-meta-label">Install</span>
-          <span class="hero-meta-value">Zero setup</span>
+
+        <div class="floater chip-tag">
+          <span class="avatar"></span>
+          <span>MEMBRCO · LIVE</span>
         </div>
-        <div class="hero-meta-row">
-          <span class="hero-meta-label">Sync</span>
-          <span class="hero-meta-value">Real-time</span>
+
+        <div class="floater dash-mini">
+          <div class="mini-label">Month Revenue</div>
+          <div class="dash-row">
+            <div class="mini-value" style="color: var(--electric);">฿580K</div>
+            <span class="mini-delta">↑ 31%</span>
+          </div>
+          <div class="mini-chart">
+            <span style="height:40%"></span><span style="height:62%"></span>
+            <span style="height:48%"></span><span style="height:78%"></span>
+            <span style="height:66%"></span><span style="height:90%"></span>
+            <span style="height:75%"></span><span style="height:100%"></span>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="hero-actions fade-up delay-3">
-      <a href="#get-started" style="text-decoration:none;"><button class="btn-primary">เริ่ม Trial ฟรี 7 วัน →</button></a>
-      <a href="#products" style="text-decoration:none;"><button class="btn-secondary">ดู Products ทั้งหมด</button></a>
+    <div class="hero-stats reveal">
+      <div class="hero-stat">
+        <div class="hero-stat-val"><em>2</em></div>
+        <div class="hero-stat-label">Products · One Mission</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">100%</div>
+        <div class="hero-stat-label">Cloud · Zero Install</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val">30s</div>
+        <div class="hero-stat-label">Auto-sync Interval</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val"><em>24/7</em></div>
+        <div class="hero-stat-label">Real-time Collab</div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ========== MARQUEE ========== -->
 <div class="marquee">
   <div class="marquee-track">
-    <span>CardestCo</span>
-    <span>MembrCo</span>
-    <span>Co Management</span>
-    <span>CardestCo</span>
-    <span>MembrCo</span>
-    <span>Co Management</span>
-    <span>CardestCo</span>
-    <span>MembrCo</span>
-    <span>Co Management</span>
+    <span>CardestCo <span class="star">✦</span> MembrCo <span class="star">✦</span> Co Management <span class="star">✦</span></span>
+    <span>CardestCo <span class="star">✦</span> MembrCo <span class="star">✦</span> Co Management <span class="star">✦</span></span>
+    <span>CardestCo <span class="star">✦</span> MembrCo <span class="star">✦</span> Co Management <span class="star">✦</span></span>
   </div>
 </div>
 
-<!-- ========== PRODUCTS OVERVIEW ========== -->
-<div id="products">
-<div class="section-header">
-  <div class="section-label">The Collection — 02 Products</div>
-  <h2 class="section-title">
-    เลือกเครื่องมือที่<em>พอดี</em><br>
-    กับโลกของคุณ
-  </h2>
-</div>
-
-<div class="products">
-  <!-- CardestCo -->
-  <a href="https://cardestco.com/" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">
-  <div class="product-card card-cardest">
-    <div class="card-visual cardest-visual">
-      <div class="trading-card"></div>
-      <div class="trading-card"></div>
-      <div class="trading-card"></div>
-    </div>
-    <div>
-      <div class="product-num">— 01 / TRADING CARDS</div>
-      <h3 class="product-name">Cardest<span class="co"><em>Co</em></span></h3>
-      <p class="product-tag">
-        ระบบจัดการร้านการ์ดและนักสะสมครบวงจร — stock, break, consign, PSA/BGS/CGC.
-      </p>
-    </div>
-    <div class="product-tags">
-      <span class="tag">Trading Cards</span>
-      <span class="tag">Art Toy</span>
-      <span class="tag">Model</span>
-      <span class="tag">Collectors</span>
-    </div>
-  </div>
-  </a>
-
-  <!-- MembrCo -->
-  <a href="https://membrco.com/" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">
-  <div class="product-card card-membr">
-    <div class="card-visual membr-visual">
-      <div class="eq-bar"></div>
-      <div class="eq-bar"></div>
-      <div class="eq-bar"></div>
-      <div class="eq-bar"></div>
-      <div class="eq-bar"></div>
-      <div class="eq-bar"></div>
-      <div class="eq-bar"></div>
-      <div class="eq-bar"></div>
-    </div>
-    <div>
-      <div class="product-num">— 02 / BANDS, EVENTS & ORGANIZER</div>
-      <h3 class="product-name">Membr<span class="co"><em>Co</em></span></h3>
-      <p class="product-tag">
-        ระบบจัดการธุรกิจวงดนตรี, Event, Organizer, Venues.
-      </p>
-    </div>
-    <div class="product-tags">
-      <span class="tag">Band</span>
-      <span class="tag">Organize</span>
-      <span class="tag">Venue</span>
-      <span class="tag">Events</span>
-    </div>
-  </div>
-  </a>
-</div>
-</div>
-
-<!-- ========== CARDESTCO DETAIL ========== -->
 <section class="detail-section detail-cardest" id="cardest">
   <div class="detail-inner">
     <div class="detail-top">
-      <div>
-        <div class="detail-label">— Product 01 / CardestCo</div>
+      <div class="reveal">
+        <div class="detail-label">Product 01 · CardestCo</div>
         <h2 class="detail-title">Cardest<em>Co.</em></h2>
       </div>
-      <p class="detail-desc">
-        สำหรับร้านการ์ดและนักสะสม Trading Cards, Art Toy, Model — เปิดจาก Browser ได้เลย ข้อมูลเก็บบน Cloud แยกต่าง User ผ่าน email เป็น key และ Auto-sync ทุก 30 วินาที รองรับหลายเครื่องพร้อมกัน
+      <p class="detail-desc reveal">
+        สำหรับร้านการ์ดและนักสะสม Trading Cards, Art Toy, Model — เปิดจาก Browser ได้ทันที ข้อมูลเก็บบน Cloud 
+ · รองรับหลายเครื่องพร้อมกัน
       </p>
     </div>
 
     <div class="features">
-      <div class="feature">
-        <div class="feature-num">/ 01</div>
-        <h4 class="feature-title">สต็อกการ์ด</h4>
-        <p class="feature-desc">เพิ่มและจัดการการ์ดพร้อมรูปภาพ Brand, Rarity, ข้อมูล Graded (PSA/BGS/CGC), ต้นทุนและราคาขาย</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">/ 02</div>
-        <h4 class="feature-title">ขายการ์ด</h4>
-        <p class="feature-desc">สร้าง Order ขายได้หลายใบพร้อมกัน ลด Stock อัตโนมัติ ติดตามกำไรและ Margin แบบ Real-time</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">/ 03</div>
-        <h4 class="feature-title">เบรคการ์ด</h4>
-        <p class="feature-desc">จัดการ Box Break กำหนด Spots และราคา รองรับ Pending Break — พักไว้แล้วกลับมาทำต่อได้ End Break แล้วสร้าง Order อัตโนมัติ</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">/ 04</div>
-        <h4 class="feature-title">ฝากขาย &amp; เกรด</h4>
-        <p class="feature-desc">รับการ์ดลูกค้ามาฝากขาย (ต้นทุน ฿0) หรือรับฝากส่งเกรด PSA/BGS/CGC กำไรจากค่าบริการ ทั้งสองแบบเข้าระบบรายได้จริง</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">/ 05</div>
-        <h4 class="feature-title">สั่งซื้อการ์ด</h4>
-        <p class="feature-desc">บันทึกการซื้อการ์ดเข้าร้านพร้อมติดตามสถานะ PO ตั้งแต่สั่ง จนถึงรับของเข้า Stock</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">/ 06</div>
-        <h4 class="feature-title">AI ซื้อการ์ด</h4>
-        <p class="feature-desc">วางข้อความหรือรูป list การ์ดจากคนขาย — ระบบอ่านชื่อการ์ด, Brand, Rarity, ราคา แล้วสร้าง PO ให้อัตโนมัติ ไม่ต้องกรอกทีละใบ</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">/ 07</div>
-        <h4 class="feature-title">Dashboard &amp; Reports</h4>
-        <p class="feature-desc">Revenue, Orders, Gross Margin, Net Profit · Sales Chart รายเดือน · Portfolio · Aging Report · Top 10 การ์ดขายดี</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">/ 08</div>
-        <h4 class="feature-title">Export to Excel</h4>
-        <p class="feature-desc">Export รายได้ในแต่ละเดือนเป็นไฟล์ Excel — นำไปทำบัญชี ภาษี หรือวิเคราะห์ต่อได้ทันที</p>
-      </div>
+      <div class="feature reveal"><div class="feature-num">/ 01</div><div class="feature-icon">S</div><h4 class="feature-title">สต็อก<em>การ์ด</em></h4><p class="feature-desc">เพิ่มและจัดการการ์ดพร้อมรูปภาพ Brand, Rarity, ข้อมูล Graded (PSA/BGS/CGC), ต้นทุนและราคาขาย</p></div>
+      <div class="feature reveal"><div class="feature-num">/ 02</div><div class="feature-icon">$</div><h4 class="feature-title">ขาย<em>การ์ด</em></h4><p class="feature-desc">สร้าง Order ได้หลายใบพร้อมกัน ลด Stock อัตโนมัติ ติดตามกำไรและ Margin แบบ real-time</p></div>
+      <div class="feature reveal"><div class="feature-num">/ 03</div><div class="feature-icon">B</div><h4 class="feature-title">เบรค<em>การ์ด</em></h4><p class="feature-desc">จัดการ Box Break กำหนด Spots และราคา รองรับ Pending Break — พักไว้แล้วกลับมาทำต่อได้ End Break แล้วสร้าง Order อัตโนมัติ</p></div>
+      <div class="feature reveal"><div class="feature-num">/ 04</div><div class="feature-icon">C</div><h4 class="feature-title">ฝากขาย<em> & </em>เกรด</h4><p class="feature-desc">รับการ์ดลูกค้ามาฝากขาย (ต้นทุน ฿0) หรือรับฝากส่งเกรด PSA/BGS/CGC — กำไรเข้าระบบรายได้จริง</p></div>
+      <div class="feature reveal"><div class="feature-num">/ 05</div><div class="feature-icon">P</div><h4 class="feature-title">สั่งซื้อ<em>การ์ด</em></h4><p class="feature-desc">บันทึกการซื้อการ์ดเข้าร้านพร้อมติดตามสถานะ PO ตั้งแต่สั่งจนถึงรับของเข้า Stock</p></div>
+      <div class="feature reveal"><div class="feature-num">/ 06</div><div class="feature-icon">AI</div><h4 class="feature-title">AI <em>ซื้อการ์ด</em></h4><p class="feature-desc">วางข้อความหรือรูป list การ์ดจากคนขาย — ระบบอ่านชื่อการ์ด Brand Rarity ราคา แล้วสร้าง PO ให้อัตโนมัติ</p></div>
+      <div class="feature reveal"><div class="feature-num">/ 07</div><div class="feature-icon">D</div><h4 class="feature-title">Dashboard<em> & </em>Reports</h4><p class="feature-desc">Revenue · Orders · Gross Margin · Net Profit · Sales Chart รายเดือน · Portfolio · Aging Report · Top 10 การ์ดขายดี</p></div>
+      <div class="feature reveal"><div class="feature-num">/ 08</div><div class="feature-icon">X</div><h4 class="feature-title">Export <em>Excel</em></h4><p class="feature-desc">Export รายได้ในแต่ละเดือนเป็นไฟล์ Excel — นำไปทำบัญชี ภาษี หรือวิเคราะห์ต่อได้ทันที</p></div>
     </div>
 
-    <!-- Dashboard Preview -->
-    <div class="dashboard-preview">
+    <div class="dashboard-preview reveal">
       <div class="dash-header">
         <span>CardestCo · Dashboard</span>
         <div class="dash-dots"><span></span><span></span><span></span></div>
       </div>
       <div class="dash-body">
-        <div class="kpi">
-          <div class="kpi-label">Revenue</div>
-          <div class="kpi-value">฿428K</div>
-          <div class="kpi-change kpi-up">↑ 24.3%</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Orders</div>
-          <div class="kpi-value">316</div>
-          <div class="kpi-change kpi-up">↑ 12.1%</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Gross Margin</div>
-          <div class="kpi-value">38.2%</div>
-          <div class="kpi-change kpi-up">↑ 3.4%</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Net Profit</div>
-          <div class="kpi-value">฿163K</div>
-          <div class="kpi-change kpi-up">↑ 18.7%</div>
-        </div>
+        <div class="kpi"><div class="kpi-label">Revenue</div><div class="kpi-value"><em>฿</em>428K</div><div class="kpi-change kpi-up">↑ 24.3%</div></div>
+        <div class="kpi"><div class="kpi-label">Orders</div><div class="kpi-value">316</div><div class="kpi-change kpi-up">↑ 12.1%</div></div>
+        <div class="kpi"><div class="kpi-label">Gross Margin</div><div class="kpi-value">38.2%</div><div class="kpi-change kpi-up">↑ 3.4%</div></div>
+        <div class="kpi"><div class="kpi-label">Net Profit</div><div class="kpi-value"><em>฿</em>163K</div><div class="kpi-change kpi-up">↑ 18.7%</div></div>
         <div class="dash-chart">
-          <div class="chart-bar" style="height: 45%"></div>
-          <div class="chart-bar" style="height: 62%"></div>
-          <div class="chart-bar" style="height: 38%"></div>
-          <div class="chart-bar" style="height: 74%"></div>
-          <div class="chart-bar" style="height: 55%"></div>
-          <div class="chart-bar" style="height: 88%"></div>
-          <div class="chart-bar" style="height: 70%"></div>
-          <div class="chart-bar" style="height: 95%"></div>
-          <div class="chart-bar" style="height: 78%"></div>
-          <div class="chart-bar" style="height: 100%"></div>
-          <div class="chart-bar" style="height: 85%"></div>
-          <div class="chart-bar" style="height: 92%"></div>
+          <div class="chart-bar" style="height: 45%"></div><div class="chart-bar" style="height: 62%"></div>
+          <div class="chart-bar" style="height: 38%"></div><div class="chart-bar" style="height: 74%"></div>
+          <div class="chart-bar" style="height: 55%"></div><div class="chart-bar" style="height: 88%"></div>
+          <div class="chart-bar" style="height: 70%"></div><div class="chart-bar" style="height: 95%"></div>
+          <div class="chart-bar" style="height: 78%"></div><div class="chart-bar" style="height: 100%"></div>
+          <div class="chart-bar" style="height: 85%"></div><div class="chart-bar" style="height: 92%"></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ========== BANDESTCO DETAIL ========== -->
 <section class="detail-section detail-membr" id="membr">
   <div class="detail-inner">
     <div class="detail-top">
-      <div>
-        <div class="detail-label">— Product 02 / MembrCo</div>
+      <div class="reveal">
+        <div class="detail-label">Product 02 · MembrCo</div>
         <h2 class="detail-title">Membr<em>Co.</em></h2>
       </div>
-      <p class="detail-desc">
-        สำหรับวงดนตรี, Organize และทีมสถานที่ — ครอบคลุมตั้งแต่บันทึกงาน กำหนดค่าตัว รับเงินลูกค้า จ่ายค่าตัวสมาชิก ไปจนถึงสรุปรายได้ พร้อม AI กรอกงานและ Real-time sync
+      <p class="detail-desc reveal">
+        สำหรับวงดนตรี, Organizer และทีมสถานที่ — ครอบคลุมตั้งแต่บันทึกงาน กำหนดค่าตัว รับเงินลูกค้า จ่ายค่าตัวสมาชิก ไปจนถึงสรุปรายได้ พร้อม AI กรอกงานและ Real-time sync
       </p>
     </div>
 
     <div class="features">
-      <div class="feature">
-        <div class="feature-num">/ 01</div>
-        <h4 class="feature-title">AI กรอกงาน</h4>
-        <p class="feature-desc">วางข้อความจาก LINE/WhatsApp หรืออัปโหลด PDF — ระบบกรอกข้อมูลทุก field ให้อัตโนมัติ ประหยัดเวลามหาศาล</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">/ 02</div>
-        <h4 class="feature-title">Real-time Collab</h4>
-        <p class="feature-desc">ทำงานพร้อมกันหลายคน เมื่อใครแก้ไขข้อมูล ทุกคนเห็นการเปลี่ยนแปลงทันที ไม่ต้อง Refresh</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">/ 03</div>
-        <h4 class="feature-title">รับเงินลูกค้า</h4>
-        <p class="feature-desc">Drag &amp; Drop สลิป คำนวณยอดคงเหลืออัตโนมัติ หากยกเลิกรายการ ระบบบันทึก Log เหตุผลไว้ทุกครั้ง</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">/ 04</div>
-        <h4 class="feature-title">จ่ายค่าตัวสมาชิก</h4>
-        <p class="feature-desc">เลือกจ่ายทีละคนหรือทั้งหมดพร้อมกัน รวมทั้งระบบจ่ายทิปแยกต่างหาก</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">/ 05</div>
-        <h4 class="feature-title">8 หน้าหลัก</h4>
-        <p class="feature-desc">Dashboard · ข้อมูลงาน · รับเงิน · จ่ายเงิน · จ่ายทิป · สมาชิก · ปฏิทิน · ตั้งค่า ครบทุกเวิร์กโฟลว์</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">/ 06</div>
-        <h4 class="feature-title">Role-based Access</h4>
-        <p class="feature-desc">Admin (หัวหน้าวง) เข้าถึงได้ทุกอย่าง · Member (สมาชิก) ดูได้เฉพาะข้อมูลตัวเอง · Session 24 ชม. ต่ออายุอัตโนมัติ</p>
-      </div>
-      <div class="feature">
-        <div class="feature-num">/ 07</div>
-        <h4 class="feature-title">Export ข้อมูล</h4>
-        <p class="feature-desc">Export Excel ทั้งรายได้และข้อมูลสมาชิก · Export to ZIP รวมรูปสลิปทั้งรับและจ่าย เก็บเอกสารได้ครบในคลิกเดียว</p>
-      </div>
+      <div class="feature reveal"><div class="feature-num">/ 01</div><div class="feature-icon">AI</div><h4 class="feature-title">AI <em>กรอกงาน</em></h4><p class="feature-desc">วางข้อความจาก LINE/WhatsApp หรืออัปโหลด PDF — ระบบกรอกข้อมูลทุก field ให้อัตโนมัติ ประหยัดเวลามหาศาล</p></div>
+      <div class="feature reveal"><div class="feature-num">/ 02</div><div class="feature-icon">R</div><h4 class="feature-title">Real-time<em> Collab</em></h4><p class="feature-desc">ทำงานพร้อมกันหลายคน เมื่อใครแก้ไขข้อมูล ทุกคนเห็นการเปลี่ยนแปลงทันที ไม่ต้อง Refresh</p></div>
+      <div class="feature reveal"><div class="feature-num">/ 03</div><div class="feature-icon">$</div><h4 class="feature-title">รับเงิน<em>ลูกค้า</em></h4><p class="feature-desc">Drag &amp; Drop สลิป คำนวณยอดคงเหลืออัตโนมัติ หากยกเลิกรายการ ระบบบันทึก Log เหตุผลไว้ทุกครั้ง</p></div>
+      <div class="feature reveal"><div class="feature-num">/ 04</div><div class="feature-icon">P</div><h4 class="feature-title">จ่ายค่าตัว<em>สมาชิก</em></h4><p class="feature-desc">เลือกจ่ายทีละคนหรือทั้งหมดพร้อมกัน รวมทั้งระบบจ่ายทิปแยกต่างหาก</p></div>
+      <div class="feature reveal"><div class="feature-num">/ 05</div><div class="feature-icon">8</div><h4 class="feature-title">8 <em>หน้าหลัก</em></h4><p class="feature-desc">Dashboard · ข้อมูลงาน · รับเงิน · จ่ายเงิน · จ่ายทิป · สมาชิก · ปฏิทิน · ตั้งค่า ครบทุกเวิร์กโฟลว์</p></div>
+      <div class="feature reveal"><div class="feature-num">/ 06</div><div class="feature-icon">@</div><h4 class="feature-title">Role-based<em> Access</em></h4><p class="feature-desc">Admin (หัวหน้าวง) เข้าถึงได้ทุกอย่าง · Member (สมาชิก) ดูได้เฉพาะข้อมูลตัวเอง · Session 24 ชม. ต่ออายุอัตโนมัติ</p></div>
+      <div class="feature reveal"><div class="feature-num">/ 07</div><div class="feature-icon">E</div><h4 class="feature-title">Export <em>ข้อมูล</em></h4><p class="feature-desc">Export Excel ทั้งรายได้และข้อมูลสมาชิก · Export to ZIP รวมรูปสลิปทั้งรับและจ่าย เก็บเอกสารได้ครบในคลิกเดียว</p></div>
     </div>
 
-    <!-- Dashboard Preview -->
-    <div class="dashboard-preview">
+    <div class="dashboard-preview reveal">
       <div class="dash-header">
-        <span>MembrCo · Dashboard</span>
+        <span style="color: var(--electric);">MembrCo · Dashboard</span>
         <div class="dash-dots"><span></span><span></span><span></span></div>
       </div>
       <div class="dash-body">
-        <div class="kpi">
-          <div class="kpi-label">งานเดือนนี้</div>
-          <div class="kpi-value">24</div>
-          <div class="kpi-change kpi-up">↑ 8 งาน</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">รายได้</div>
-          <div class="kpi-value">฿580K</div>
-          <div class="kpi-change kpi-up">↑ 31%</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">ค้างรับ</div>
-          <div class="kpi-value">฿92K</div>
-          <div class="kpi-change">4 งาน</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">สมาชิก Active</div>
-          <div class="kpi-value">12</div>
-          <div class="kpi-change kpi-up">+2 คน</div>
-        </div>
+        <div class="kpi"><div class="kpi-label">งานเดือนนี้</div><div class="kpi-value">24</div><div class="kpi-change kpi-up">↑ 8 งาน</div></div>
+        <div class="kpi"><div class="kpi-label">รายได้</div><div class="kpi-value"><em>฿</em>580K</div><div class="kpi-change kpi-up">↑ 31%</div></div>
+        <div class="kpi"><div class="kpi-label">ค้างรับ</div><div class="kpi-value"><em>฿</em>92K</div><div class="kpi-change">4 งาน</div></div>
+        <div class="kpi"><div class="kpi-label">สมาชิก Active</div><div class="kpi-value">12</div><div class="kpi-change kpi-up">+2 คน</div></div>
         <div class="dash-chart">
-          <div class="chart-bar" style="height: 60%"></div>
-          <div class="chart-bar" style="height: 75%"></div>
-          <div class="chart-bar" style="height: 48%"></div>
-          <div class="chart-bar" style="height: 85%"></div>
-          <div class="chart-bar" style="height: 92%"></div>
-          <div class="chart-bar" style="height: 70%"></div>
-          <div class="chart-bar" style="height: 88%"></div>
-          <div class="chart-bar" style="height: 65%"></div>
-          <div class="chart-bar" style="height: 100%"></div>
-          <div class="chart-bar" style="height: 82%"></div>
-          <div class="chart-bar" style="height: 95%"></div>
-          <div class="chart-bar" style="height: 78%"></div>
+          <div class="chart-bar" style="height: 60%"></div><div class="chart-bar" style="height: 75%"></div>
+          <div class="chart-bar" style="height: 48%"></div><div class="chart-bar" style="height: 85%"></div>
+          <div class="chart-bar" style="height: 92%"></div><div class="chart-bar" style="height: 70%"></div>
+          <div class="chart-bar" style="height: 88%"></div><div class="chart-bar" style="height: 65%"></div>
+          <div class="chart-bar" style="height: 100%"></div><div class="chart-bar" style="height: 82%"></div>
+          <div class="chart-bar" style="height: 95%"></div><div class="chart-bar" style="height: 78%"></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ========== AUDIENCE ========== -->
 <section class="audience-section" id="audience">
   <div class="audience-inner">
-    <div class="section-label">— For Whom</div>
-    <h2 class="section-title">Platform นี้<em>เหมาะ</em>กับใคร?</h2>
+    <div class="section-label reveal">For Whom</div>
+    <h2 class="section-title reveal"><span class="thai-word">Platform นี้</span><em>เหมาะ</em><span class="thai-word">กับใคร</span>?</h2>
 
     <div class="audience-grid">
-      <div class="audience-card">
-        <div class="audience-icon">◆</div>
-        <h3 class="audience-title">ร้านการ์ด</h3>
-        <p class="audience-desc">ร้านขายการ์ดเกม Pokémon, One Piece, Magic และอื่นๆ</p>
-        <div class="audience-product">→ CardestCo</div>
-      </div>
-      <div class="audience-card">
-        <div class="audience-icon">✦</div>
-        <h3 class="audience-title">นักสะสม</h3>
-        <p class="audience-desc">นักสะสมการ์ด Graded PSA/BGS/CGC ที่ต้องการ Portfolio</p>
-        <div class="audience-product">→ CardestCo</div>
-      </div>
-      <div class="audience-card">
-        <div class="audience-icon">❋</div>
-        <h3 class="audience-title">Art Toy / Model</h3>
-        <p class="audience-desc">ร้านและนักสะสม Art Toy, Figure, Model Kit</p>
-        <div class="audience-product">→ CardestCo</div>
-      </div>
-      <div class="audience-card">
-        <div class="audience-icon">♪</div>
-        <h3 class="audience-title">วงดนตรี</h3>
-        <p class="audience-desc">วงที่มีสมาชิกหลายคน รับงานหลายที่ ต้องจัดการค่าตัว</p>
-        <div class="audience-product">→ MembrCo</div>
-      </div>
-      <div class="audience-card">
-        <div class="audience-icon">◉</div>
-        <h3 class="audience-title">Organize</h3>
-        <p class="audience-desc">ทีมจัดงาน Event Organizer ที่ต้องประสานหลายฝ่าย</p>
-        <div class="audience-product">→ MembrCo</div>
-      </div>
-      <div class="audience-card">
-        <div class="audience-icon">▲</div>
-        <h3 class="audience-title">ทีมสถานที่</h3>
-        <p class="audience-desc">Venue, ร้านที่มีวงประจำ, ทีมที่ต้องจัดการคิวงาน</p>
-        <div class="audience-product">→ MembrCo</div>
-      </div>
+      <div class="audience-card reveal"><div class="audience-icon">◆</div><h3 class="audience-title">ร้านการ์ด</h3><p class="audience-desc">ร้านขายการ์ดเกม Pokémon, One Piece, Magic และอื่นๆ</p><div class="audience-product"><span>CardestCo</span><span class="arrow">→</span></div></div>
+      <div class="audience-card reveal"><div class="audience-icon">✦</div><h3 class="audience-title">นักสะสม</h3><p class="audience-desc">นักสะสมการ์ด Graded PSA/BGS/CGC ที่ต้องการ Portfolio</p><div class="audience-product"><span>CardestCo</span><span class="arrow">→</span></div></div>
+      <div class="audience-card reveal"><div class="audience-icon">❋</div><h3 class="audience-title">Art Toy / Model</h3><p class="audience-desc">ร้านและนักสะสม Art Toy, Figure, Model Kit</p><div class="audience-product"><span>CardestCo</span><span class="arrow">→</span></div></div>
+      <div class="audience-card reveal"><div class="audience-icon">♪</div><h3 class="audience-title">วงดนตรี</h3><p class="audience-desc">วงที่มีสมาชิกหลายคน รับงานหลายที่ ต้องจัดการค่าตัว</p><div class="audience-product"><span>MembrCo</span><span class="arrow">→</span></div></div>
+      <div class="audience-card reveal"><div class="audience-icon">◉</div><h3 class="audience-title">Organizer</h3><p class="audience-desc">ทีมจัดงาน Event Organizer ที่ต้องประสานหลายฝ่าย</p><div class="audience-product"><span>MembrCo</span><span class="arrow">→</span></div></div>
+      <div class="audience-card reveal"><div class="audience-icon">▲</div><h3 class="audience-title">ทีมสถานที่</h3><p class="audience-desc">Venue, ร้านที่มีวงประจำ, ทีมที่ต้องจัดการคิวงาน</p><div class="audience-product"><span>MembrCo</span><span class="arrow">→</span></div></div>
     </div>
   </div>
 </section>
 
-<!-- ========== PRICING ========== -->
 <section class="pricing-section" id="pricing">
   <div class="pricing-inner">
     <div class="pricing-header">
-      <div>
-        <div class="section-label">— Pricing / Subscription</div>
-        <h2 class="section-title">เลือก <em>Plan</em> ที่ใช่<br>สำหรับธุรกิจของคุณ</h2>
+      <div class="reveal">
+        <div class="section-label">Pricing · Subscription</div>
+        <h2 class="section-title"><span class="thai-word">เลือก </span><em>Plan</em><span class="thai-word"> ที่ใช่</span><br><span class="thai-word">สำหรับธุรกิจของคุณ</span></h2>
       </div>
-      <div class="pricing-note">
-        ลองฟรี 7 วัน<br>
-        ยกเลิกได้ทุกเมื่อ · ราคา / เดือน
+      <div class="pricing-note reveal">
+        ลองฟรี 7 วัน<br>ยกเลิกได้ทุกเมื่อ · ราคา / เดือน
       </div>
     </div>
 
     <div class="pricing-groups">
-      <!-- CardestCo Plans -->
-      <div class="pricing-group">
+      <div class="pricing-group reveal">
         <div class="pricing-group-head">
           <div class="pg-name">Cardest<em>Co.</em></div>
           <a href="https://cardestco.com/" target="_blank" rel="noopener" class="pg-link">cardestco.com ↗</a>
@@ -1561,9 +1066,7 @@ footer {
         <div class="plans">
           <div class="plan">
             <div class="plan-name">Basic</div>
-            <div class="plan-price">
-              <span class="currency">฿</span><span class="amount">199</span>
-            </div>
+            <div class="plan-price"><span class="currency">฿</span><span class="amount">199</span></div>
             <div class="plan-period">/ month</div>
             <ul class="plan-features">
               <li>ทุก Core Feature ของ CardestCo</li>
@@ -1571,14 +1074,12 @@ footer {
               <li>Cloud sync แบบ Real-time</li>
               <li>Dashboard &amp; Reports ครบชุด</li>
             </ul>
-            <a href="https://cardestco.com/" target="_blank" rel="noopener" class="plan-cta"><span>เริ่มใช้ Basic →</span></a>
+            <a href="https://cardestco.com/" target="_blank" rel="noopener" class="plan-cta"><span>เริ่มใช้ Basic</span><span class="arrow">→</span></a>
           </div>
           <div class="plan featured">
             <div class="plan-badge">Most Popular</div>
             <div class="plan-name">Pro AI</div>
-            <div class="plan-price">
-              <span class="currency">฿</span><span class="amount">349</span>
-            </div>
+            <div class="plan-price"><span class="currency">฿</span><span class="amount">349</span></div>
             <div class="plan-period">/ month</div>
             <ul class="plan-features">
               <li>ทุกอย่างใน Basic Plan</li>
@@ -1586,13 +1087,12 @@ footer {
               <li>ใช้ AI ได้ไม่จำกัด</li>
               <li>Priority Support</li>
             </ul>
-            <a href="https://cardestco.com/" target="_blank" rel="noopener" class="plan-cta"><span>เริ่มใช้ Pro AI →</span></a>
+            <a href="https://cardestco.com/" target="_blank" rel="noopener" class="plan-cta"><span>เริ่มใช้ Pro AI</span><span class="arrow">→</span></a>
           </div>
         </div>
       </div>
 
-      <!-- MembrCo Plans -->
-      <div class="pricing-group dark">
+      <div class="pricing-group dark reveal">
         <div class="pricing-group-head">
           <div class="pg-name">Membr<em>Co.</em></div>
           <a href="https://membrco.com/" target="_blank" rel="noopener" class="pg-link">membrco.com ↗</a>
@@ -1600,9 +1100,7 @@ footer {
         <div class="plans">
           <div class="plan">
             <div class="plan-name">Pro</div>
-            <div class="plan-price">
-              <span class="currency">฿</span><span class="amount">499</span>
-            </div>
+            <div class="plan-price"><span class="currency">฿</span><span class="amount">499</span></div>
             <div class="plan-period">/ month</div>
             <ul class="plan-features">
               <li>ทุก Core Feature ของ MembrCo</li>
@@ -1610,14 +1108,12 @@ footer {
               <li>Role-based Access (Admin / Member)</li>
               <li>8 หน้าหลัก ครบทุกเวิร์กโฟลว์</li>
             </ul>
-            <a href="https://membrco.com/" target="_blank" rel="noopener" class="plan-cta"><span>เริ่มใช้ Pro →</span></a>
+            <a href="https://membrco.com/" target="_blank" rel="noopener" class="plan-cta"><span>เริ่มใช้ Pro</span><span class="arrow">→</span></a>
           </div>
           <div class="plan featured">
             <div class="plan-badge">Most Popular</div>
             <div class="plan-name">Pro AI</div>
-            <div class="plan-price">
-              <span class="currency">฿</span><span class="amount">599</span>
-            </div>
+            <div class="plan-price"><span class="currency">฿</span><span class="amount">599</span></div>
             <div class="plan-period">/ month</div>
             <ul class="plan-features">
               <li>ทุกอย่างใน Pro Plan</li>
@@ -1625,7 +1121,7 @@ footer {
               <li>ประหยัดเวลาการกรอกงานมหาศาล</li>
               <li>Priority Support</li>
             </ul>
-            <a href="https://membrco.com/" target="_blank" rel="noopener" class="plan-cta"><span>เริ่มใช้ Pro AI →</span></a>
+            <a href="https://membrco.com/" target="_blank" rel="noopener" class="plan-cta"><span>เริ่มใช้ Pro AI</span><span class="arrow">→</span></a>
           </div>
         </div>
       </div>
@@ -1633,49 +1129,41 @@ footer {
   </div>
 </section>
 
-<!-- ========== CTA ========== -->
 <section class="cta-section" id="get-started">
   <div class="cta-bg">Co.</div>
   <div class="cta-inner">
-    <div class="section-label" style="opacity: 0.8;">— Ready to start?</div>
-    <h2 class="cta-title">
-      ลองฟรี <em>7 วัน.</em><br>
-      ถ้าชอบใจค่อย <em>Subscription.</em>
+    <div class="section-label reveal" style="color: var(--butter);">Ready to start?</div>
+    <h2 class="cta-title reveal">
+      <span class="thai-word">ลองฟรี </span><em>7 วัน</em>.<br>
+      <span class="thai-word">ถ้าชอบใจค่อย </span><em>Subscribe</em>.
     </h2>
-    <p style="font-family: 'Fraunces', serif; font-size: 22px; max-width: 600px; opacity: 0.8; font-weight: 300;">
-      เลือก Product ที่ใช่สำหรับธุรกิจของคุณ — แล้วเริ่มจัดการหลังบ้านแบบมืออาชีพได้ทันที
-    </p>
-    <div class="cta-buttons">
-      <a href="https://cardestco.com/" target="_blank" rel="noopener" style="text-decoration:none;"><button class="btn-rust">เริ่มใช้ CardestCo →</button></a>
-      <a href="https://membrco.com/" target="_blank" rel="noopener" style="text-decoration:none;"><button class="btn-electric">เริ่มใช้ MembrCo →</button></a>
+    <p class="cta-sub reveal">เลือก Product ที่ใช่สำหรับธุรกิจของคุณ — แล้วเริ่มจัดการหลังบ้านแบบมืออาชีพได้ทันที</p>
+    <div class="cta-buttons reveal">
+      <a href="https://cardestco.com/" target="_blank" rel="noopener" class="btn-rust">เริ่มใช้ CardestCo <span class="arrow">→</span></a>
+      <a href="https://membrco.com/" target="_blank" rel="noopener" class="btn-electric">เริ่มใช้ MembrCo <span class="arrow">→</span></a>
     </div>
   </div>
 </section>
 
-<!-- ========== FOOTER ========== -->
 <footer>
   <div class="footer-inner">
     <div>© 2026 Co Management · All products on Cloud</div>
-    <div>Made in Thailand</div>
+    <div>Made in Thailand 🇹🇭</div>
   </div>
 </footer>
 
 <script>
-  // Smooth scroll reveal
-  const observer = new IntersectionObserver((entries) => {
+  const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.feature, .audience-card, .product-card, .kpi').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-    observer.observe(el);
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  document.querySelectorAll('.hero .reveal').forEach((el, i) => {
+    setTimeout(() => el.classList.add('in'), 80 * i + 100);
   });
 </script>
 
