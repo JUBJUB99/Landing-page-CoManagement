@@ -643,27 +643,12 @@ nav {
   text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.7;
   text-align: right; line-height: 1.8; font-weight: 500;
 }
-.pricing-groups { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-@media (max-width: 900px) { .pricing-groups { grid-template-columns: 1fr; } }
-.pricing-group {
-  background: var(--paper); border-radius: 28px; padding: 36px 32px 32px;
-  border: 1px solid var(--line); display: flex; flex-direction: column;
-}
-.pricing-group.dark { background: var(--plum); color: var(--paper); border-color: transparent; }
-.pricing-group-head {
-  padding-bottom: 24px; margin-bottom: 24px;
-  border-bottom: 1px dashed currentColor;
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-}
-.pricing-group .pricing-group-head { border-color: var(--line-strong); }
-.pricing-group.dark .pricing-group-head { border-color: rgba(245,239,227,0.18); }
+/* PRICING — two grouped boxes in one row */
 .pg-name {
-  font-family: 'Instrument Serif', serif; font-size: 38px;
+  font-family: 'Instrument Serif', serif; font-size: 32px;
   font-weight: 400; letter-spacing: -0.025em; line-height: 1;
 }
 .pg-name em { font-style: italic; }
-.pricing-group .pg-name em { color: var(--rust); }
-.pricing-group.dark .pg-name em { color: var(--electric); }
 .pg-link {
   font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 500;
   letter-spacing: 0.08em; text-decoration: none; color: inherit; opacity: 0.7;
@@ -671,25 +656,79 @@ nav {
   transition: all 0.2s; white-space: nowrap;
 }
 .pg-link:hover { opacity: 1; transform: translateY(-1px); }
-.plans { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex: 1; }
-@media (max-width: 500px) { .plans { grid-template-columns: 1fr; } }
+
+.pricing-groups {
+  display: grid; grid-template-columns: 2fr 3fr; gap: 20px; align-items: start;
+}
+@media (max-width: 1100px) { .pricing-groups { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 900px) { .pricing-groups { grid-template-columns: 1fr; } }
+
+.pricing-group {
+  background: var(--paper); border-radius: 28px; padding: 32px 24px 24px;
+  border: 1px solid var(--line); display: flex; flex-direction: column;
+}
+.pricing-group.dark { background: var(--plum); color: var(--paper); border-color: transparent; }
+
+.pricing-group-head {
+  padding-bottom: 20px; margin-bottom: 20px;
+  border-bottom: 1px dashed currentColor;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.pricing-group .pricing-group-head { border-color: var(--line-strong); }
+.pricing-group.dark .pricing-group-head { border-color: rgba(245,239,227,0.18); }
+.pricing-group .pg-name em { color: var(--rust); }
+.pricing-group.dark .pg-name em { color: var(--electric); }
+
+.plans { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; flex: 1; }
+.plans.plans-3 { grid-template-columns: 1fr 1fr 1fr; }
+@media (max-width: 500px) {
+  .plans { grid-template-columns: 1fr; }
+  .plans.plans-3 { grid-template-columns: 1fr; }
+}
+
+/* Compact plan cards for side-by-side groups */
+.pricing-groups .plan-price .amount { font-size: 42px; }
+.plans-3 .plan-price .amount { font-size: 36px; }
+.pricing-groups .plan { padding: 18px 14px; }
+.pricing-groups .plan-features { font-size: 12px; }
+.pricing-groups .plan-features li { padding: 6px 0; }
+.pricing-groups .plan-cta { font-size: 12px; padding: 10px 12px; }
+
+/* Restore at bigger sizes */
+@media (max-width: 900px) {
+  .pricing-groups .plan-price .amount { font-size: 52px; }
+  .plans-3 .plan-price .amount { font-size: 44px; }
+  .pricing-groups .plan { padding: 22px 20px; }
+  .pricing-groups .plan-features { font-size: 13px; }
+  .pricing-groups .plan-features li { padding: 8px 0; }
+  .pricing-groups .plan-cta { font-size: 13px; padding: 12px 18px; }
+}
+
+.pricing-group .plan { border-color: var(--line-strong); }
+.pricing-group.dark .plan { border-color: rgba(245,239,227,0.18); }
+.pricing-group .plan.featured { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.pricing-group.dark .plan.featured { background: var(--electric); color: var(--plum); border-color: var(--electric); }
+.pricing-group.dark .plan.featured .plan-badge { background: var(--plum); color: var(--electric); }
+.pricing-group .plan-features li { border-color: var(--line); }
+.pricing-group.dark .plan-features li { border-color: rgba(245,239,227,0.12); }
+.pricing-group.dark .plan.featured .plan-features li { border-color: rgba(28,15,46,0.2); }
+.pricing-group.dark .plan-cta:hover span { color: var(--plum); }
+.pricing-group.dark .plan.featured .plan-cta:hover { background: var(--plum); color: var(--electric); }
+.pricing-group.dark .plan.featured .plan-cta:hover span { color: var(--electric); }
+.plan.featured .plan-cta:hover { background: var(--paper); color: var(--ink); }
+.plan.featured .plan-cta:hover span { color: var(--ink); }
 .plan {
   border: 1px solid currentColor; border-radius: 20px; padding: 22px 20px;
   position: relative; display: flex; flex-direction: column;
   transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
 }
-.pricing-group .plan { border-color: var(--line-strong); }
-.pricing-group.dark .plan { border-color: rgba(245,239,227,0.18); }
 .plan:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -15px rgba(24,22,18,0.15); }
-.plan.featured { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-.pricing-group.dark .plan.featured { background: var(--electric); color: var(--plum); border-color: var(--electric); }
 .plan-badge {
   position: absolute; top: -10px; left: 18px;
   font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 600;
   letter-spacing: 0.08em; padding: 5px 10px; border-radius: 999px;
   background: var(--rust); color: var(--paper); text-transform: uppercase;
 }
-.pricing-group.dark .plan.featured .plan-badge { background: var(--plum); color: var(--electric); }
 .plan-name {
   font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 600;
   text-transform: uppercase; letter-spacing: 0.12em; opacity: 0.7; margin-bottom: 14px;
@@ -710,9 +749,6 @@ nav {
   padding: 8px 0; border-top: 1px dashed currentColor;
   opacity: 0.88; display: flex; gap: 10px; align-items: flex-start;
 }
-.pricing-group .plan-features li { border-color: var(--line); }
-.pricing-group.dark .plan-features li { border-color: rgba(245,239,227,0.12); }
-.pricing-group.dark .plan.featured .plan-features li { border-color: rgba(28,15,46,0.2); }
 .plan-features li::before { content: '↳'; font-family: 'Geist Mono', monospace; opacity: 0.6; font-size: 12px; flex-shrink: 0; }
 
 .plan-cta {
@@ -723,11 +759,6 @@ nav {
 }
 .plan-cta:hover { background: currentColor; }
 .plan-cta:hover span { color: var(--paper); }
-.pricing-group.dark .plan-cta:hover span { color: var(--plum); }
-.plan.featured .plan-cta:hover { background: var(--paper); color: var(--ink); }
-.plan.featured .plan-cta:hover span { color: var(--ink); }
-.pricing-group.dark .plan.featured .plan-cta:hover { background: var(--plum); color: var(--electric); }
-.pricing-group.dark .plan.featured .plan-cta:hover span { color: var(--electric); }
 
 /* CTA */
 .cta-section { padding: 120px 28px; background: var(--ink); color: var(--paper); position: relative; overflow: hidden; }
@@ -1058,6 +1089,7 @@ footer { padding: 60px 28px 40px; background: var(--ink); color: var(--paper); b
     </div>
 
     <div class="pricing-groups">
+      <!-- CardestCo group -->
       <div class="pricing-group reveal">
         <div class="pricing-group-head">
           <div class="pg-name">Cardest<em>Co.</em></div>
@@ -1077,7 +1109,7 @@ footer { padding: 60px 28px 40px; background: var(--ink); color: var(--paper); b
             <a href="https://cardestco.com/" target="_blank" rel="noopener" class="plan-cta"><span>เริ่มใช้ Basic</span><span class="arrow">→</span></a>
           </div>
           <div class="plan featured">
-            <div class="plan-badge">Most Popular</div>
+            <div class="plan-badge">Popular</div>
             <div class="plan-name">Pro AI</div>
             <div class="plan-price"><span class="currency">฿</span><span class="amount">349</span></div>
             <div class="plan-period">/ month</div>
@@ -1092,33 +1124,49 @@ footer { padding: 60px 28px 40px; background: var(--ink); color: var(--paper); b
         </div>
       </div>
 
+      <!-- MembrCo group -->
       <div class="pricing-group dark reveal">
         <div class="pricing-group-head">
           <div class="pg-name">Membr<em>Co.</em></div>
           <a href="https://membrco.com/" target="_blank" rel="noopener" class="pg-link">membrco.com ↗</a>
         </div>
-        <div class="plans">
+        <div class="plans plans-3">
           <div class="plan">
+            <div class="plan-name">Basic</div>
+            <div class="plan-price"><span class="currency">฿</span><span class="amount">199</span></div>
+            <div class="plan-period">/ month</div>
+            <ul class="plan-features">
+              <li>สมาชิกในวง <strong>1 คน</strong> · 1 User</li>
+              <li>บันทึกงาน + รายได้</li>
+              <li>หัก ณ ที่จ่าย</li>
+              <li>Cloud Sync + Export</li>
+              <li>Dashboard KPI</li>
+            </ul>
+            <a href="https://membrco.com/" target="_blank" rel="noopener" class="plan-cta"><span>เริ่มใช้ Basic</span><span class="arrow">→</span></a>
+          </div>
+          <div class="plan featured">
+            <div class="plan-badge">Popular</div>
             <div class="plan-name">Pro</div>
             <div class="plan-price"><span class="currency">฿</span><span class="amount">499</span></div>
             <div class="plan-period">/ month</div>
             <ul class="plan-features">
-              <li>ทุก Core Feature ของ MembrCo</li>
+              <li>สมาชิก<strong>ไม่จำกัด</strong> · 20 Users</li>
+              <li>ทุกอย่างใน Basic +</li>
+              <li><strong>จ่ายค่าตัว / จ่ายทิป</strong></li>
               <li>Real-time Collab หลายคน</li>
-              <li>Role-based Access (Admin / Member)</li>
-              <li>8 หน้าหลัก ครบทุกเวิร์กโฟลว์</li>
+              <li>Role-based Access</li>
             </ul>
             <a href="https://membrco.com/" target="_blank" rel="noopener" class="plan-cta"><span>เริ่มใช้ Pro</span><span class="arrow">→</span></a>
           </div>
-          <div class="plan featured">
-            <div class="plan-badge">Most Popular</div>
+          <div class="plan">
             <div class="plan-name">Pro AI</div>
             <div class="plan-price"><span class="currency">฿</span><span class="amount">599</span></div>
             <div class="plan-period">/ month</div>
             <ul class="plan-features">
-              <li>ทุกอย่างใน Pro Plan</li>
-              <li>เพิ่ม <strong>AI กรอกงาน</strong> — วาง LINE/PDF ได้เลย</li>
-              <li>ประหยัดเวลาการกรอกงานมหาศาล</li>
+              <li>สมาชิก<strong>ไม่จำกัด</strong> · 20 Users</li>
+              <li>ทุกอย่างใน Pro +</li>
+              <li><strong>AI กรอกงาน</strong> — LINE/PDF</li>
+              <li>ประหยัดเวลามหาศาล</li>
               <li>Priority Support</li>
             </ul>
             <a href="https://membrco.com/" target="_blank" rel="noopener" class="plan-cta"><span>เริ่มใช้ Pro AI</span><span class="arrow">→</span></a>
